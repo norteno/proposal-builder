@@ -9,6 +9,18 @@ export type ProposalTheme = {
   bodyFont: string;
 };
 
+export type SectionBodyColors = {
+  hero: string;
+  letter: string;
+  about: string;
+  experience: string;
+  team: string;
+  deliverables: string;
+  timeline: string;
+  pricing: string;
+  handoff: string;
+};
+
 export type LetterSigner = {
   name: string;
   role: string;
@@ -34,6 +46,32 @@ export type Deliverable = {
   items: string[];
 };
 
+export type TimelineItem = {
+  label: string;
+  duration: string;
+  startMonth: number;
+  endMonth: number;
+  color: string;
+};
+
+export type PricingItem = {
+  eyebrow: string;
+  title: string;
+  price: string;
+  items: string[];
+};
+
+export type PricingModule = {
+  eyebrow: string;
+  title: string;
+  totalLabel: string;
+  totalTitle: string;
+  totalDescription: string;
+  totalPrice: string;
+  splitLabel: string;
+  items: PricingItem[];
+};
+
 export type Proposal = {
   id: string;
   clientName: string;
@@ -50,7 +88,11 @@ export type Proposal = {
   proofBody: string;
   experienceImageUrl?: string;
   theme: ProposalTheme;
+  sectionBodyColors: SectionBodyColors;
   clientLogos: LogoItem[];
   team: TeamMember[];
   deliverables: Deliverable[];
+  timeline: TimelineItem[];
+  timelineNote: string;
+  pricing: PricingModule;
 };

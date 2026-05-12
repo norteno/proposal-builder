@@ -2,14 +2,12 @@
 
 import { Eye, Plus, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import EditorPanel, { PanelNav } from "@/components/editor-panel";
+import EditorPanel, { Panel, PanelNav } from "@/components/editor-panel";
 import ProposalPreview from "@/components/proposal-preview";
 import { Button } from "@/components/ui";
 import { starterProposal } from "@/lib/starterProposal";
 import { createSlug, getActiveProposalId, getStoredProposals, saveStoredProposals, setActiveProposalId } from "@/lib/storage";
 import { Proposal } from "@/lib/types";
-
-type Panel = "content" | "brand" | "logos" | "team" | "deliverables" | "settings";
 
 function cloneProposal(proposal: Proposal, proposals: Proposal[]): Proposal {
   const copyNumber = proposals.filter((item) => item.clientName.startsWith(proposal.clientName)).length + 1;
@@ -133,6 +131,8 @@ export default function Home() {
             <option value="logos">Logos</option>
             <option value="team">Team</option>
             <option value="deliverables">Deliverables</option>
+            <option value="timeline">Timeline</option>
+            <option value="pricing">Pricing</option>
             <option value="settings">Settings</option>
           </select>
         </div>

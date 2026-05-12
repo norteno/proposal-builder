@@ -31,6 +31,17 @@ export const starterProposal: Proposal = {
     headingFont: "Inter",
     bodyFont: "Inter"
   },
+  sectionBodyColors: {
+    hero: "#d6e6de",
+    letter: "#d7d7d7",
+    about: "#4b4b4b",
+    experience: "#d6e6de",
+    team: "#bdbdbd",
+    deliverables: "#555555",
+    timeline: "#727272",
+    pricing: "#d6e6de",
+    handoff: "#d6e6de"
+  },
   clientLogos: [
     { name: "R+Co" },
     { name: "Uchi" },
@@ -76,5 +87,48 @@ export const starterProposal: Proposal = {
         "Light copy refinement to ensure the proposal, page content, and messaging feel polished, clear, and on-brand.",
       items: ["Headline refinement", "Page copy edits", "CTA recommendations", "Tone consistency"]
     }
-  ]
+  ],
+  timeline: [
+    { label: "Discovery", duration: "4 weeks", startMonth: 1.3, endMonth: 2.4, color: "#e9ff3d" },
+    { label: "Web Design", duration: "~16 weeks", startMonth: 1.6, endMonth: 6.0, color: "#18cbaa" },
+    { label: "Development", duration: "~14–16 weeks", startMonth: 2.7, endMonth: 6.6, color: "#0d3d34" },
+    { label: "Content Entry", duration: "Ongoing", startMonth: 4.4, endMonth: 6.6, color: "#d77df2" },
+    { label: "Launch & Support", duration: "Ongoing", startMonth: 6.6, endMonth: 8.1, color: "#8ff4f4" }
+  ],
+  timelineNote: "Timeline is illustrative. Final scope confirmed after Discovery.",
+  pricing: {
+    eyebrow: "Estimated Budget",
+    title: "Investment",
+    totalLabel: "Total Budget",
+    totalTitle: "Web Design + Development",
+    totalDescription: "All-in project fee for all phases of the online shopping experience. See creative and development breakout pricing below.",
+    totalPrice: "$178k",
+    splitLabel: "Split",
+    items: [
+      {
+        eyebrow: "The Graphic Standard",
+        title: "Web Design",
+        price: "$85,000",
+        items: ["Design discovery", "Website definition", "Website detailed design", "Copy editing", "Quality assurance of design in development", "Project management"]
+      },
+      {
+        eyebrow: "Kinful",
+        title: "Theme Development",
+        price: "$85,000",
+        items: ["Design advisement", "Technical discovery", "Custom Shopify theme", "Integration support"]
+      },
+      {
+        eyebrow: "Kinful",
+        title: "Quiz Development",
+        price: "$8,000",
+        items: ["Exploration of quiz logic", "App exploration for backend needs", "Roughly 40 hours for the quiz to define what fits within scope"]
+      },
+      {
+        eyebrow: "Kinful",
+        title: "Ongoing Support",
+        price: "$4,300/mo",
+        items: ["Ongoing support: $4,300/mo (20 hrs)", "Minimum 3 months of support required for continued post-launch optimization"]
+      }
+    ]
+  }
 };

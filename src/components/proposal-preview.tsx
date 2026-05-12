@@ -13,6 +13,102 @@ function ImageOrPlaceholder({ src, label, className }: { src?: string; label: st
   return <div className={className} aria-label={label} />;
 }
 
+function TimelineSection({ proposal }: { proposal: Proposal }) {
+  const months = ["Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6", "Month 7+"];
+  const minMonth = 1;
+  const maxMonth = 8.2;
+  const span = maxMonth - minMonth;
+  const pct = (value: number) => `${Math.max(0, Math.min(100, ((value - minMonth) / span) * 100))}%`;
+
+  return (
+    <section className="bg-[#f8f7f4] px-8 py-20 text-[var(--dark-text)] sm:px-20">
+      <p className="text-xs uppercase tracking-[0.24em] text-neutral-400">Ballpark</p>
+      <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">Estimated Timeline</h2>
+      <div className="mt-16 overflow-x-auto pb-4">
+        <div className="min-w-[920px]">
+          <div className="grid grid-cols-[180px_1fr] gap-8">
+            <div />
+            <div className="grid grid-cols-7 text-xs uppercase tracking-[0.18em] text-neutral-400">
+              {months.map((month) => <div key={month}>{month}</div>)}
+            </div>
+          </div>
+          <div className="mt-5 grid grid-cols-[180px_1fr] gap-8">
+            <div className="space-y-8">
+              {proposal.timeline.map((item, index) => (
+                <div key={`timeline-label-${index}`} className="h-14">
+                  <p className="font-bold uppercase tracking-[0.12em] text-neutral-600">{item.label}</p>
+                  <p className="mt-1 text-neutral-400" style={{ color: proposal.sectionBodyColors.timeline }}>{item.duration}</p>
+                </div>
+              ))}
+            </div>
+            <div className="relative border-l border-neutral-200">
+              <div className="absolute inset-y-0 left-0 right-0 grid grid-cols-7">
+                {months.map((month) => <div key={`grid-${month}`} className="border-r border-neutral-200" />)}
+              </div>
+              <div className="relative z-10 space-y-8 py-2">
+                {proposal.timeline.map((item, index) => (
+                  <div key={`timeline-bar-${index}`} className="relative h-14">
+                    <div
+                      className="absolute top-2 flex h-10 items-center rounded-lg px-4 text-xs font-black uppercase tracking-[0.12em] shadow-lg"
+                      style={{ left: pct(item.startMonth), width: `calc(${pct(item.endMonth)} - ${pct(item.startMonth)})`, backgroundColor: item.color, color: item.color.toLowerCase() === "#0d3d34" ? "#e9ff3d" : "#1b1b1b" }}
+                    >
+                      {item.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 border-t border-neutral-200 pt-8">
+            <div className="flex flex-wrap gap-6">
+              {proposal.timeline.map((item, index) => (
+                <div key={`legend-${index}`} className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-neutral-400">
+                  <span className="h-3 w-3 rounded" style={{ backgroundColor: item.color }} /> {item.label}
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 italic text-neutral-400" style={{ color: proposal.sectionBodyColors.timeline }}>{proposal.timelineNote}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PricingSection({ proposal }: { proposal: Proposal }) {
+  return (
+    <section className="bg-[var(--primary)] px-8 py-20 text-white sm:px-20">
+      <p className="text-xs uppercase tracking-[0.24em] text-white/50">{proposal.pricing.eyebrow}</p>
+      <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">{proposal.pricing.title}</h2>
+      <div className="mt-8 rounded-3xl bg-white/10 p-8 sm:p-10">
+        <div className="grid gap-8 md:grid-cols-[1fr_220px] md:items-start">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-white/50">{proposal.pricing.totalLabel}</p>
+            <h3 className="mt-5 font-display text-3xl font-black uppercase tracking-[-0.04em]">{proposal.pricing.totalTitle}</h3>
+            <p className="mt-6 max-w-xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.pricing }}>{proposal.pricing.totalDescription}</p>
+          </div>
+          <p className="font-display text-5xl font-black text-[var(--accent)] sm:text-6xl">{proposal.pricing.totalPrice}</p>
+        </div>
+      </div>
+      <div className="my-10 flex items-center gap-6 text-xs uppercase tracking-[0.24em] text-white/50"><span className="h-px flex-1 bg-white/20" />{proposal.pricing.splitLabel}<span className="h-px flex-1 bg-white/20" /></div>
+      <div className="grid gap-5 md:grid-cols-2">
+        {proposal.pricing.items.map((item, index) => (
+          <article key={`pricing-card-${index}`} className="rounded-3xl border border-white/10 bg-white/10 p-8">
+            <p className="text-xs uppercase tracking-[0.24em] text-white/45">{item.eyebrow}</p>
+            <h3 className="mt-5 font-display text-2xl font-black uppercase tracking-[-0.04em]">{item.title}</h3>
+            <p className="mt-4 font-display text-4xl font-black text-[var(--accent)]">{item.price}</p>
+            <ul className="mt-8 space-y-4 text-sm leading-6" style={{ color: proposal.sectionBodyColors.pricing }}>
+              {item.items.map((included, itemIndex) => (
+                <li key={`pricing-${index}-${itemIndex}`} className="flex gap-3"><span className="text-[var(--accent)]">✓</span><span>{included}</span></li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function ProposalPreview({ proposal, clean = false }: { proposal: Proposal; clean?: boolean }) {
   const titleWords = proposal.title.split(" ");
   const lastWord = titleWords.pop() || "Proposal";
@@ -30,166 +126,42 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
   return (
     <main className={clean ? "min-h-screen bg-neutral-200" : "flex-1 overflow-y-auto bg-neutral-200 p-3 sm:p-5"}>
-      <div
-        className={`${clean ? "mx-auto max-w-6xl" : "mx-auto max-w-5xl overflow-hidden rounded-[2rem] shadow-2xl"} bg-white`}
-        style={themeVars}
-      >
+      <div className={`${clean ? "mx-auto max-w-6xl" : "mx-auto max-w-5xl overflow-hidden rounded-[2rem] shadow-2xl"} bg-white`} style={themeVars}>
         <section className="relative min-h-[680px] bg-[var(--primary)] px-8 py-10 text-[var(--proposal-text)] sm:px-16 sm:py-14">
-          <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em] text-white/70">
-            <span>TGS /</span>
-            <span>The Graphic Standard</span>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mt-44 max-w-2xl"
-          >
-            <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">
-              {proposal.eyebrow} {proposal.clientName}
-            </span>
-            <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">
-              {titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em>
-            </h1>
-            <div className="mt-10 grid gap-6 border-t border-white/20 pt-6 text-sm text-white/70 sm:grid-cols-[1fr_220px]">
-              <p>{proposal.introLetter}</p>
-              <div className="border-l border-white/20 pl-5">
-                <p className="uppercase tracking-[0.18em]">Prepared By</p>
-                <p className="mt-2 text-white">The Graphic Standard</p>
-              </div>
+          <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em] text-white/70"><span>TGS /</span><span>The Graphic Standard</span></div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-2xl">
+            <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
+            <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">{titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em></h1>
+            <div className="mt-10 grid gap-6 border-t border-white/20 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
+              <p>{proposal.introLetter}</p><div className="border-l border-white/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2 text-white">The Graphic Standard</p></div>
             </div>
           </motion.div>
         </section>
 
         <section className="bg-[var(--secondary)] px-8 py-20 text-white sm:px-24">
-          <div className="mx-auto max-w-2xl">
-            <p className="mb-8 text-xs uppercase tracking-[0.24em] text-white/40">Letter</p>
-            <p className="text-lg leading-8 text-white/80">{proposal.introLetter}</p>
-            <div className="mt-10 flex flex-wrap gap-8 text-sm text-white/60">
-              {proposal.letterSigners.map((signer, index) => (
-                <div key={`${signer.name}-${index}`} className="min-w-[140px]">
-                  <ImageOrPlaceholder
-                    src={signer.imageUrl}
-                    label={signer.name}
-                    className="h-12 w-12 rounded-full bg-white/20 object-cover"
-                  />
-                  <p className="mt-3 text-white">{signer.name}</p>
-                  <p>{signer.role}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <div className="mx-auto max-w-2xl"><p className="mb-8 text-xs uppercase tracking-[0.24em] text-white/40">Letter</p><p className="text-lg leading-8" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.introLetter}</p><div className="mt-10 flex flex-wrap gap-8 text-sm" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.letterSigners.map((signer, index) => <div key={`letter-signer-${index}`} className="min-w-[140px]"><ImageOrPlaceholder src={signer.imageUrl} label={signer.name} className="h-12 w-12 rounded-full bg-white/20 object-cover" /><p className="mt-3 text-white">{signer.name}</p><p>{signer.role}</p></div>)}</div></div>
         </section>
 
         <section className="bg-[var(--cream)] px-8 py-20 text-[var(--dark-text)] sm:px-20">
           <div className="grid items-center gap-10 lg:grid-cols-[320px_1fr]">
-            {proposal.aboutImageUrl ? (
-              <div className="overflow-hidden rounded-[2rem] shadow-xl">
-                <ImageOrPlaceholder
-                  src={proposal.aboutImageUrl}
-                  label="About the studio"
-                  className="aspect-[4/5] w-full bg-neutral-800/80 object-cover"
-                />
-              </div>
-            ) : (
-              <div className="flex gap-3">
-                {[0, 1, 2].map((item) => (
-                  <div key={item} className="h-32 w-24 rounded-t-full bg-neutral-800/80 shadow-xl" />
-                ))}
-              </div>
-            )}
-            <div>
-              <p className="text-xs uppercase tracking-[0.22em] text-neutral-500">About the studio</p>
-              <h2 className="mt-4 max-w-lg font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">
-                {proposal.aboutTitle}
-              </h2>
-              <p className="mt-8 max-w-3xl text-lg leading-8 text-neutral-700">{proposal.aboutBody}</p>
-            </div>
+            {proposal.aboutImageUrl ? <div className="overflow-hidden rounded-[2rem] shadow-xl"><ImageOrPlaceholder src={proposal.aboutImageUrl} label="About the studio" className="aspect-[4/5] w-full bg-neutral-800/80 object-cover" /></div> : <div className="flex gap-3">{[0, 1, 2].map((item) => <div key={item} className="h-32 w-24 rounded-t-full bg-neutral-800/80 shadow-xl" />)}</div>}
+            <div><p className="text-xs uppercase tracking-[0.22em] text-neutral-500">About the studio</p><h2 className="mt-4 max-w-lg font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">{proposal.aboutTitle}</h2><p className="mt-8 max-w-3xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.about }}>{proposal.aboutBody}</p></div>
           </div>
-          <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-neutral-900/10 pt-8">
-            {proposal.clientLogos.map((logo, index) => (
-              <div key={`${logo.name}-${index}`} className="flex min-h-12 min-w-[96px] items-center justify-center">
-                {logo.imageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logo.imageUrl} alt={logo.name} className="max-h-12 max-w-[130px] object-contain grayscale" />
-                ) : (
-                  <span className="text-sm font-black uppercase tracking-[-0.04em] text-neutral-900/70">{logo.name}</span>
-                )}
-              </div>
-            ))}
-          </div>
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-neutral-900/10 pt-8">{proposal.clientLogos.map((logo, index) => <div key={`logo-preview-${index}`} className="flex min-h-12 min-w-[96px] items-center justify-center">{logo.imageUrl ? <img src={logo.imageUrl} alt={logo.name} className="max-h-12 max-w-[130px] object-contain grayscale" /> : <span className="text-sm font-black uppercase tracking-[-0.04em] text-neutral-900/70">{logo.name}</span>}</div>)}</div>
         </section>
 
         <section className="bg-[var(--primary)] px-8 py-20 text-white sm:px-20">
-          <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
-            <div>
-              <p className="text-xs uppercase tracking-[0.22em] text-white/40">Experience</p>
-              <h2 className="mt-4 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">
-                {proposal.proofTitle}
-              </h2>
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-white/70">{proposal.proofBody}</p>
-            </div>
-            <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-white/15 p-4 shadow-2xl">
-              {proposal.experienceImageUrl ? (
-                <ImageOrPlaceholder
-                  src={proposal.experienceImageUrl}
-                  label="Experience"
-                  className="h-full w-full rounded-2xl bg-white/20 object-cover"
-                />
-              ) : (
-                <div className="h-full rounded-2xl bg-gradient-to-br from-white/80 to-white/20" />
-              )}
-            </div>
-          </div>
+          <div className="grid gap-10 lg:grid-cols-[1fr_360px]"><div><p className="text-xs uppercase tracking-[0.22em] text-white/40">Experience</p><h2 className="mt-4 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">{proposal.proofTitle}</h2><p className="mt-8 max-w-2xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.experience }}>{proposal.proofBody}</p></div><div className="aspect-[4/3] overflow-hidden rounded-3xl bg-white/15 p-4 shadow-2xl">{proposal.experienceImageUrl ? <ImageOrPlaceholder src={proposal.experienceImageUrl} label="Experience" className="h-full w-full rounded-2xl bg-white/20 object-cover" /> : <div className="h-full rounded-2xl bg-gradient-to-br from-white/80 to-white/20" />}</div></div>
         </section>
 
-        <section className="bg-[var(--secondary)] px-8 py-20 text-white sm:px-20">
-          <p className="mb-8 text-xs font-bold uppercase tracking-[0.22em] text-white/50">The proposed team</p>
-          <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
-            {proposal.team.map((member, index) => (
-              <div key={`${member.name}-${index}`}>
-                <ImageOrPlaceholder
-                  src={member.imageUrl}
-                  label={member.name}
-                  className="aspect-square w-full rounded-2xl bg-white/90 object-cover grayscale"
-                />
-                <p className="mt-3 text-sm font-bold">{member.name}</p>
-                <p className="text-xs text-white/45">{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <section className="bg-[var(--secondary)] px-8 py-20 text-white sm:px-20"><p className="mb-8 text-xs font-bold uppercase tracking-[0.22em] text-white/50">The proposed team</p><div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">{proposal.team.map((member, index) => <div key={`team-preview-${index}`}><ImageOrPlaceholder src={member.imageUrl} label={member.name} className="aspect-square w-full rounded-2xl bg-white/90 object-cover grayscale" /><p className="mt-3 text-sm font-bold">{member.name}</p><p className="text-xs" style={{ color: proposal.sectionBodyColors.team }}>{member.role}</p></div>)}</div></section>
 
-        <section className="bg-[var(--cream)] px-8 py-20 text-[var(--dark-text)] sm:px-20">
-          <p className="text-xs uppercase tracking-[0.24em] text-neutral-500">Scope</p>
-          <h2 className="mt-2 font-display text-4xl font-black uppercase tracking-[-0.06em]">Web Design</h2>
-          <div className="mt-12 grid gap-10 md:grid-cols-2">
-            {proposal.deliverables.map((item) => (
-              <article key={`${item.phase}-${item.title}`} className="rounded-[1.75rem] border border-neutral-900/15 bg-[var(--cream)] p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">{item.phase}</p>
-                <h3 className="mt-3 font-display text-2xl font-black tracking-[-0.05em]">{item.title}</h3>
-                <p className="mt-4 text-sm leading-6 text-neutral-700">{item.description}</p>
-                <div className="mt-6 rounded-2xl border border-neutral-900/20 p-4">
-                  <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">Includes</p>
-                  <ul className="space-y-2 text-sm text-neutral-800">
-                    {item.items.map((included) => (
-                      <li key={included} className="flex gap-2">
-                        <span>•</span>
-                        <span>{included}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <section className="bg-[var(--cream)] px-8 py-20 text-[var(--dark-text)] sm:px-20"><p className="text-xs uppercase tracking-[0.24em] text-neutral-500">Scope</p><h2 className="mt-2 font-display text-4xl font-black uppercase tracking-[-0.06em]">Web Design</h2><div className="mt-12 grid gap-10 md:grid-cols-2">{proposal.deliverables.map((item, index) => <article key={`deliverable-preview-${index}`} className="rounded-[1.75rem] border border-neutral-900/15 bg-[var(--cream)] p-6"><p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">{item.phase}</p><h3 className="mt-3 font-display text-2xl font-black tracking-[-0.05em]">{item.title}</h3><p className="mt-4 text-sm leading-6" style={{ color: proposal.sectionBodyColors.deliverables }}>{item.description}</p><div className="mt-6 rounded-2xl border border-neutral-900/20 p-4"><p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">Includes</p><ul className="space-y-2 text-sm" style={{ color: proposal.sectionBodyColors.deliverables }}>{item.items.map((included, itemIndex) => <li key={`included-${index}-${itemIndex}`} className="flex gap-2"><span>•</span><span>{included}</span></li>)}</ul></div></article>)}</div></section>
 
-        <section className="flex min-h-[320px] items-end justify-between bg-[var(--primary)] px-8 py-12 text-white sm:px-20">
-          <span className="text-xs uppercase tracking-[0.24em] text-white/50">Scroll</span>
-          <h2 className="font-display text-4xl font-black uppercase tracking-[-0.06em] text-white/20">Handoff</h2>
-          <span className="text-xs uppercase tracking-[0.24em] text-white/50">Next</span>
-        </section>
+        <TimelineSection proposal={proposal} />
+        <PricingSection proposal={proposal} />
+
+        <section className="flex min-h-[320px] items-end justify-between bg-[var(--primary)] px-8 py-12 text-white sm:px-20"><span className="text-xs uppercase tracking-[0.24em] text-white/50">Scroll</span><h2 className="font-display text-4xl font-black uppercase tracking-[-0.06em] text-white/20">Handoff</h2><span className="text-xs uppercase tracking-[0.24em]" style={{ color: proposal.sectionBodyColors.handoff }}>Next</span></section>
       </div>
     </main>
   );
