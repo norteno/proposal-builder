@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, FileText, Image, LayoutTemplate, Palette, Plus, Save, Settings, Trash2, Users } from "lucide-react";
+import { Copy, FileText, Image, LayoutTemplate, Palette, Plus, Save, Settings, Trash2, Upload, Users, X } from "lucide-react";
 import { Button, Card, CardContent } from "@/components/ui";
 import { Proposal } from "@/lib/types";
 
@@ -36,6 +36,43 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
         <span className="w-20 text-xs text-neutral-500">{value}</span>
       </div>
     </label>
+  );
+}
+
+function ImageUpload({ label, value, onChange }: { label: string; value?: string; onChange: (value: string) => void }) {
+  const handleFile = (file?: File) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onChange(String(reader.result || ""));
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div className="space-y-2">
+      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{label}</span>
+      <div className="rounded-2xl border border-neutral-200 bg-white p-3">
+        {value ? (
+          <div className="mb-3 overflow-hidden rounded-xl border border-neutral-100 bg-neutral-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={value} alt="Uploaded preview" className="h-32 w-full object-cover" />
+          </div>
+        ) : (
+          <div className="mb-3 flex h-28 items-center justify-center rounded-xl bg-neutral-100 text-xs font-medium uppercase tracking-[0.16em] text-neutral-400">No image uploaded</div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-neutral-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800">
+            <Upload size={14} /> Upload image
+            <input type="file" accept="image/*" className="hidden" onChange={(event) => handleFile(event.target.files?.[0])} />
+          </label>
+          {value ? (
+            <Button variant="outline" size="sm" onClick={() => onChange("")}>
+              <X size={14} /> Remove
+            </Button>
+          ) : null}
+        </div>
+        <p className="mt-2 text-xs leading-5 text-neutral-400">Images are saved in your browser storage for now. Later, this can be replaced with real cloud uploads.</p>
+      </div>
+    </div>
   );
 }
 
@@ -99,8 +136,9 @@ export default function EditorPanel({
     });
   };
 
-  const addLogo = () => update("clientLogos", [...proposal.clientLogos, "New Logo"]);
-  const addTeamMember = () => update("team", [...proposal.team, { name: "New Team Member", role: "Role" }]);
+  const addLogo = () => update("clientLogos", [...proposal.clientLogos, { name: "New Logo", imageUrl: "" }]);
+  const addSigner = () => update("letterSigners", [...proposal.letterSigners, { name: "New Signer", role: "Role", imageUrl: "" }]);
+  const addTeamMember = () => update("team", [...proposal.team, { name: "New Team Member", role: "Role", imageUrl: "" }]);
   const addDeliverable = () =>
     update("deliverables", [
       ...proposal.deliverables,
@@ -131,10 +169,30 @@ export default function EditorPanel({
           <Field label="Proposal Title" value={proposal.title} onChange={(value) => update("title", value)} />
           <Field label="Hero Eyebrow" value={proposal.eyebrow} onChange={(value) => update("eyebrow", value)} />
           <Field label="Letter to Client" value={proposal.introLetter} onChange={(value) => update("introLetter", value)} textarea />
+
+          <div className="rounded-3xl border border-neutral-200 bg-white p-4">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="font-semibold">Letter signers</h3>
+              <Button variant="outline" size="sm" onClick={addSigner}><Plus size={14} /> Add</Button>
+            </div>
+            <div className="space-y-4">
+              {proposal.letterSigners.map((signer, index) => (
+                <div key={`${signer.name}-${index}`} className="space-y-3 rounded-2xl bg-neutral-50 p-3">
+                  <ImageUpload label="Signer Image" value={signer.imageUrl} onChange={(value) => { const next = [...proposal.letterSigners]; next[index] = { ...next[index], imageUrl: value }; update("letterSigners", next); }} />
+                  <Field label="Signer Name" value={signer.name} onChange={(value) => { const next = [...proposal.letterSigners]; next[index] = { ...next[index], name: value }; update("letterSigners", next); }} />
+                  <Field label="Signer Role" value={signer.role} onChange={(value) => { const next = [...proposal.letterSigners]; next[index] = { ...next[index], role: value }; update("letterSigners", next); }} />
+                  <Button variant="ghost" size="sm" onClick={() => update("letterSigners", proposal.letterSigners.filter((_, i) => i !== index))}><Trash2 size={14} /> Remove signer</Button>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <Field label="About Title" value={proposal.aboutTitle} onChange={(value) => update("aboutTitle", value)} textarea />
           <Field label="About Body" value={proposal.aboutBody} onChange={(value) => update("aboutBody", value)} textarea />
-          <Field label="Proof Section Title" value={proposal.proofTitle} onChange={(value) => update("proofTitle", value)} textarea />
-          <Field label="Proof Section Body" value={proposal.proofBody} onChange={(value) => update("proofBody", value)} textarea />
+          <ImageUpload label="About Studio Image" value={proposal.aboutImageUrl} onChange={(value) => update("aboutImageUrl", value)} />
+          <Field label="Experience Section Title" value={proposal.proofTitle} onChange={(value) => update("proofTitle", value)} textarea />
+          <Field label="Experience Section Body" value={proposal.proofBody} onChange={(value) => update("proofBody", value)} textarea />
+          <ImageUpload label="Experience Section Image" value={proposal.experienceImageUrl} onChange={(value) => update("experienceImageUrl", value)} />
         </CardContent></Card>
       )}
 
@@ -153,9 +211,10 @@ export default function EditorPanel({
         <Card><CardContent className="space-y-4">
           <div className="flex items-center justify-between"><h3 className="font-semibold">Past Client Logos</h3><Button variant="outline" size="sm" onClick={addLogo}><Plus size={14} /> Add</Button></div>
           {proposal.clientLogos.map((logo, index) => (
-            <div key={`${logo}-${index}`} className="flex gap-2">
-              <div className="flex-1"><Field label={`Logo ${index + 1}`} value={logo} onChange={(value) => { const next = [...proposal.clientLogos]; next[index] = value; update("clientLogos", next); }} /></div>
-              <Button variant="ghost" size="icon" className="mt-7" onClick={() => update("clientLogos", proposal.clientLogos.filter((_, i) => i !== index))}><Trash2 size={16} /></Button>
+            <div key={`${logo.name}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
+              <ImageUpload label={`Logo ${index + 1} Image`} value={logo.imageUrl} onChange={(value) => { const next = [...proposal.clientLogos]; next[index] = { ...next[index], imageUrl: value }; update("clientLogos", next); }} />
+              <Field label={`Logo ${index + 1} Name`} value={logo.name} onChange={(value) => { const next = [...proposal.clientLogos]; next[index] = { ...next[index], name: value }; update("clientLogos", next); }} />
+              <Button variant="ghost" size="sm" onClick={() => update("clientLogos", proposal.clientLogos.filter((_, i) => i !== index))}><Trash2 size={14} /> Remove logo</Button>
             </div>
           ))}
         </CardContent></Card>
@@ -166,6 +225,7 @@ export default function EditorPanel({
           <div className="flex items-center justify-between"><h3 className="font-semibold">Team Members</h3><Button variant="outline" size="sm" onClick={addTeamMember}><Plus size={14} /> Add</Button></div>
           {proposal.team.map((member, index) => (
             <div key={`${member.name}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
+              <ImageUpload label="Headshot" value={member.imageUrl} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], imageUrl: value }; update("team", next); }} />
               <Field label="Name" value={member.name} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], name: value }; update("team", next); }} />
               <Field label="Role" value={member.role} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], role: value }; update("team", next); }} />
               <Button variant="ghost" size="sm" onClick={() => update("team", proposal.team.filter((_, i) => i !== index))}><Trash2 size={14} /> Remove</Button>

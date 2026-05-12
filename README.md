@@ -1,15 +1,21 @@
 # Proposal Builder
 
-A GitHub/Vercel-ready Next.js proposal builder for creating editable brand and website proposal microsites.
+Editable proposal builder for brand and website proposal microsites.
 
 ## What's included
 
-- Editable proposal builder sidebar
-- Live in-app preview
-- Working Preview button that opens `/proposals/[slug]`
-- Multiple proposals saved in browser localStorage
-- Duplicate, new, and delete proposal controls
-- Editable colors, fonts, logos, team members, and deliverables
+- Next.js + React + TypeScript + Tailwind
+- Editable proposal sidebar
+- Live scrollable proposal preview
+- Public preview route at `/proposals/[slug]`
+- Duplicate, create, and delete proposals
+- Editable colors, fonts, content, deliverables, team, and logo list
+- Image uploads saved to browser storage for:
+  - Letter signer headshots
+  - About the studio image
+  - Past client logo images
+  - Experience section image
+  - Team headshots
 
 ## Local setup
 
@@ -20,16 +26,16 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Deploying to Vercel
+## Vercel settings
 
-Use these Vercel settings:
+Use these settings when importing the repo:
 
 - Framework Preset: Next.js
 - Root Directory: `./`
 - Build Command: `npm run build`
 - Install Command: `npm install`
-- Output Directory: leave empty
+- Output Directory: leave completely blank
 
-## Important note
+## Note about image uploads
 
-This is still a front-end prototype. It stores proposals in the browser's localStorage. For a production app, the next step is adding a database, authentication, image uploads, and a real CMS/backend.
+This version stores uploaded images in the browser using `localStorage`, which is perfect for prototyping. For production/client sharing across devices, connect this to a real CMS/database and image storage service.

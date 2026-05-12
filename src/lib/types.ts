@@ -9,6 +9,17 @@ export type ProposalTheme = {
   bodyFont: string;
 };
 
+export type LetterSigner = {
+  name: string;
+  role: string;
+  imageUrl?: string;
+};
+
+export type LogoItem = {
+  name: string;
+  imageUrl?: string;
+};
+
 export type TeamMember = {
   name: string;
   role: string;
@@ -31,12 +42,15 @@ export type Proposal = {
   title: string;
   eyebrow: string;
   introLetter: string;
+  letterSigners: LetterSigner[];
   aboutTitle: string;
   aboutBody: string;
+  aboutImageUrl?: string;
   proofTitle: string;
   proofBody: string;
+  experienceImageUrl?: string;
   theme: ProposalTheme;
-  clientLogos: string[];
+  clientLogos: LogoItem[];
   team: TeamMember[];
   deliverables: Deliverable[];
 };

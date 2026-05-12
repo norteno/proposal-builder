@@ -9,12 +9,18 @@ export const starterProposal: Proposal = {
   eyebrow: "Prepared for",
   introLetter:
     "Thank you for considering our team as your creative partner. This proposal outlines a flexible, editorial website experience designed to help your brand communicate clearly, convert thoughtfully, and scale with confidence.",
+  letterSigners: [
+    { name: "Amanda Spain", role: "Creative Partner" },
+    { name: "TGS Team", role: "Design & Development" }
+  ],
   aboutTitle: "Hello, we are The Graphic Standard, but you can call us TGS.",
   aboutBody:
     "We are a multi-disciplinary studio merging high-lift design and technology to create brand systems, websites, and digital experiences for ambitious organizations.",
+  aboutImageUrl: "",
   proofTitle: "We build and support Shopify storefronts for emerging brands.",
   proofBody:
     "Our work blends strategy, visual systems, storytelling, and technical execution into a seamless process for clients and their audiences.",
+  experienceImageUrl: "",
   theme: {
     primary: "#0d3d34",
     secondary: "#1e1e1e",
@@ -25,7 +31,14 @@ export const starterProposal: Proposal = {
     headingFont: "Inter",
     bodyFont: "Inter"
   },
-  clientLogos: ["R+Co", "Uchi", "Under Armour", "RLC", "Audi", "Perspire"],
+  clientLogos: [
+    { name: "R+Co" },
+    { name: "Uchi" },
+    { name: "Under Armour" },
+    { name: "RLC" },
+    { name: "Audi" },
+    { name: "Perspire" }
+  ],
   team: [
     { name: "Sarah Ellis", role: "Creative Director" },
     { name: "Ben Carter", role: "Strategy Lead" },

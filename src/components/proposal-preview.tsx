@@ -3,6 +3,16 @@
 import { motion } from "framer-motion";
 import { Proposal } from "@/lib/types";
 
+function ImageOrPlaceholder({ src, label, className }: { src?: string; label: string; className: string }) {
+  if (src) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={src} alt={label} className={className} />
+    );
+  }
+  return <div className={className} aria-label={label} />;
+}
+
 export default function ProposalPreview({ proposal, clean = false }: { proposal: Proposal; clean?: boolean }) {
   const titleWords = proposal.title.split(" ");
   const lastWord = titleWords.pop() || "Proposal";
@@ -55,28 +65,39 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <div className="mx-auto max-w-2xl">
             <p className="mb-8 text-xs uppercase tracking-[0.24em] text-white/40">Letter</p>
             <p className="text-lg leading-8 text-white/80">{proposal.introLetter}</p>
-            <div className="mt-10 flex gap-8 text-sm text-white/60">
-              <div>
-                <div className="h-10 w-10 rounded-full bg-white/20" />
-                <p className="mt-3 text-white">Amanda Spain</p>
-                <p>Creative Partner</p>
-              </div>
-              <div>
-                <div className="h-10 w-10 rounded-full bg-white/20" />
-                <p className="mt-3 text-white">TGS Team</p>
-                <p>Design & Development</p>
-              </div>
+            <div className="mt-10 flex flex-wrap gap-8 text-sm text-white/60">
+              {proposal.letterSigners.map((signer, index) => (
+                <div key={`${signer.name}-${index}`} className="min-w-[140px]">
+                  <ImageOrPlaceholder
+                    src={signer.imageUrl}
+                    label={signer.name}
+                    className="h-12 w-12 rounded-full bg-white/20 object-cover"
+                  />
+                  <p className="mt-3 text-white">{signer.name}</p>
+                  <p>{signer.role}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         <section className="bg-[var(--cream)] px-8 py-20 text-[var(--dark-text)] sm:px-20">
-          <div className="grid items-center gap-10 lg:grid-cols-[280px_1fr]">
-            <div className="flex gap-3">
-              {[0, 1, 2].map((item) => (
-                <div key={item} className="h-32 w-24 rounded-t-full bg-neutral-800/80 shadow-xl" />
-              ))}
-            </div>
+          <div className="grid items-center gap-10 lg:grid-cols-[320px_1fr]">
+            {proposal.aboutImageUrl ? (
+              <div className="overflow-hidden rounded-[2rem] shadow-xl">
+                <ImageOrPlaceholder
+                  src={proposal.aboutImageUrl}
+                  label="About the studio"
+                  className="aspect-[4/5] w-full bg-neutral-800/80 object-cover"
+                />
+              </div>
+            ) : (
+              <div className="flex gap-3">
+                {[0, 1, 2].map((item) => (
+                  <div key={item} className="h-32 w-24 rounded-t-full bg-neutral-800/80 shadow-xl" />
+                ))}
+              </div>
+            )}
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-neutral-500">About the studio</p>
               <h2 className="mt-4 max-w-lg font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">
@@ -86,16 +107,21 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
             </div>
           </div>
           <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-neutral-900/10 pt-8">
-            {proposal.clientLogos.map((logo) => (
-              <span key={logo} className="text-sm font-black uppercase tracking-[-0.04em] text-neutral-900/70">
-                {logo}
-              </span>
+            {proposal.clientLogos.map((logo, index) => (
+              <div key={`${logo.name}-${index}`} className="flex min-h-12 min-w-[96px] items-center justify-center">
+                {logo.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={logo.imageUrl} alt={logo.name} className="max-h-12 max-w-[130px] object-contain grayscale" />
+                ) : (
+                  <span className="text-sm font-black uppercase tracking-[-0.04em] text-neutral-900/70">{logo.name}</span>
+                )}
+              </div>
             ))}
           </div>
         </section>
 
         <section className="bg-[var(--primary)] px-8 py-20 text-white sm:px-20">
-          <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
+          <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-white/40">Experience</p>
               <h2 className="mt-4 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">
@@ -103,8 +129,16 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-white/70">{proposal.proofBody}</p>
             </div>
-            <div className="aspect-[4/3] rounded-3xl bg-white/15 p-4 shadow-2xl">
-              <div className="h-full rounded-2xl bg-gradient-to-br from-white/80 to-white/20" />
+            <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-white/15 p-4 shadow-2xl">
+              {proposal.experienceImageUrl ? (
+                <ImageOrPlaceholder
+                  src={proposal.experienceImageUrl}
+                  label="Experience"
+                  className="h-full w-full rounded-2xl bg-white/20 object-cover"
+                />
+              ) : (
+                <div className="h-full rounded-2xl bg-gradient-to-br from-white/80 to-white/20" />
+              )}
             </div>
           </div>
         </section>
@@ -114,7 +148,11 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
             {proposal.team.map((member, index) => (
               <div key={`${member.name}-${index}`}>
-                <div className="aspect-square rounded-2xl bg-white/90 grayscale" />
+                <ImageOrPlaceholder
+                  src={member.imageUrl}
+                  label={member.name}
+                  className="aspect-square w-full rounded-2xl bg-white/90 object-cover grayscale"
+                />
                 <p className="mt-3 text-sm font-bold">{member.name}</p>
                 <p className="text-xs text-white/45">{member.role}</p>
               </div>
