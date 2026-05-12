@@ -177,7 +177,7 @@ export default function EditorPanel({
             </div>
             <div className="space-y-4">
               {proposal.letterSigners.map((signer, index) => (
-                <div key={`${signer.name}-${index}`} className="space-y-3 rounded-2xl bg-neutral-50 p-3">
+                <div key={`signer-${index}`} className="space-y-3 rounded-2xl bg-neutral-50 p-3">
                   <ImageUpload label="Signer Image" value={signer.imageUrl} onChange={(value) => { const next = [...proposal.letterSigners]; next[index] = { ...next[index], imageUrl: value }; update("letterSigners", next); }} />
                   <Field label="Signer Name" value={signer.name} onChange={(value) => { const next = [...proposal.letterSigners]; next[index] = { ...next[index], name: value }; update("letterSigners", next); }} />
                   <Field label="Signer Role" value={signer.role} onChange={(value) => { const next = [...proposal.letterSigners]; next[index] = { ...next[index], role: value }; update("letterSigners", next); }} />
@@ -211,7 +211,7 @@ export default function EditorPanel({
         <Card><CardContent className="space-y-4">
           <div className="flex items-center justify-between"><h3 className="font-semibold">Past Client Logos</h3><Button variant="outline" size="sm" onClick={addLogo}><Plus size={14} /> Add</Button></div>
           {proposal.clientLogos.map((logo, index) => (
-            <div key={`${logo.name}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
+            <div key={`logo-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
               <ImageUpload label={`Logo ${index + 1} Image`} value={logo.imageUrl} onChange={(value) => { const next = [...proposal.clientLogos]; next[index] = { ...next[index], imageUrl: value }; update("clientLogos", next); }} />
               <Field label={`Logo ${index + 1} Name`} value={logo.name} onChange={(value) => { const next = [...proposal.clientLogos]; next[index] = { ...next[index], name: value }; update("clientLogos", next); }} />
               <Button variant="ghost" size="sm" onClick={() => update("clientLogos", proposal.clientLogos.filter((_, i) => i !== index))}><Trash2 size={14} /> Remove logo</Button>
@@ -224,7 +224,7 @@ export default function EditorPanel({
         <Card><CardContent className="space-y-4">
           <div className="flex items-center justify-between"><h3 className="font-semibold">Team Members</h3><Button variant="outline" size="sm" onClick={addTeamMember}><Plus size={14} /> Add</Button></div>
           {proposal.team.map((member, index) => (
-            <div key={`${member.name}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
+            <div key={`member-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
               <ImageUpload label="Headshot" value={member.imageUrl} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], imageUrl: value }; update("team", next); }} />
               <Field label="Name" value={member.name} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], name: value }; update("team", next); }} />
               <Field label="Role" value={member.role} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], role: value }; update("team", next); }} />
@@ -238,7 +238,7 @@ export default function EditorPanel({
         <Card><CardContent className="space-y-4">
           <div className="flex items-center justify-between"><h3 className="font-semibold">Deliverables</h3><Button variant="outline" size="sm" onClick={addDeliverable}><Plus size={14} /> Add</Button></div>
           {proposal.deliverables.map((item, index) => (
-            <div key={`${item.title}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
+            <div key={`deliverable-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
               <Field label="Phase" value={item.phase} onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], phase: value }; update("deliverables", next); }} />
               <Field label="Title" value={item.title} onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], title: value }; update("deliverables", next); }} />
               <Field label="Description" value={item.description} textarea onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], description: value }; update("deliverables", next); }} />
