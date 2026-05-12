@@ -4,11 +4,12 @@ const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      boxShadow: {
-        soft: "0 20px 70px rgba(0,0,0,0.14)",
-      },
-    },
+      fontFamily: {
+        sans: ["var(--font-body)", "Inter", "ui-sans-serif", "system-ui"],
+        display: ["var(--font-heading)", "Inter", "ui-sans-serif", "system-ui"]
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };
 export default config;

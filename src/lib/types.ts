@@ -1,4 +1,4 @@
-export type Theme = {
+export type ProposalTheme = {
   primary: string;
   secondary: string;
   cream: string;
@@ -12,6 +12,7 @@ export type Theme = {
 export type TeamMember = {
   name: string;
   role: string;
+  bio?: string;
   imageUrl?: string;
 };
 
@@ -26,7 +27,7 @@ export type Proposal = {
   id: string;
   clientName: string;
   slug: string;
-  status: "Draft" | "Shared" | "Archived" | string;
+  status: string;
   title: string;
   eyebrow: string;
   introLetter: string;
@@ -34,7 +35,7 @@ export type Proposal = {
   aboutBody: string;
   proofTitle: string;
   proofBody: string;
-  theme: Theme;
+  theme: ProposalTheme;
   clientLogos: string[];
   team: TeamMember[];
   deliverables: Deliverable[];

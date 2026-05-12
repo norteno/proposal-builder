@@ -1,20 +1,44 @@
-import type { Proposal } from "./types";
+import { starterProposal } from "./starterProposal";
+import { Proposal } from "./types";
 
-const KEY = "proposal-builder:proposals";
+const STORAGE_KEY = "proposal-builder:proposals";
+const ACTIVE_KEY = "proposal-builder:active-id";
 
-export function loadProposals(fallback: Proposal[]): Proposal[] {
-  if (typeof window === "undefined") return fallback;
+export function createSlug(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "") || "proposal";
+}
+
+export function getStoredProposals(): Proposal[] {
+  if (typeof window === "undefined") return [starterProposal];
   try {
-    const raw = window.localStorage.getItem(KEY);
-    if (!raw) return fallback;
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [starterProposal];
     const parsed = JSON.parse(raw) as Proposal[];
-    return Array.isArray(parsed) && parsed.length ? parsed : fallback;
+    return Array.isArray(parsed) && parsed.length ? parsed : [starterProposal];
   } catch {
-    return fallback;
+    return [starterProposal];
   }
 }
 
-export function saveProposals(proposals: Proposal[]) {
+export function saveStoredProposals(proposals: Proposal[]) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(proposals));
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(proposals));
+}
+
+export function getActiveProposalId() {
+  if (typeof window === "undefined") return starterProposal.id;
+  return window.localStorage.getItem(ACTIVE_KEY) || starterProposal.id;
+}
+
+export function setActiveProposalId(id: string) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(ACTIVE_KEY, id);
+}
+
+export function findProposalBySlug(slug: string): Proposal | undefined {
+  return getStoredProposals().find((proposal) => proposal.slug === slug);
 }

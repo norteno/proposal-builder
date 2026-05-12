@@ -1,49 +1,116 @@
-import { Copy, Plus, Save } from "lucide-react";
-import { ColorField, Field } from "./fields";
-import { Button, Card, CardContent } from "./ui";
-import type { Proposal } from "@/lib/types";
-import type { Panel } from "./sidebar";
+"use client";
 
-type Props = {
+import { Copy, FileText, Image, LayoutTemplate, Palette, Plus, Save, Settings, Trash2, Users } from "lucide-react";
+import { Button, Card, CardContent } from "@/components/ui";
+import { Proposal } from "@/lib/types";
+
+type Panel = "content" | "brand" | "logos" | "team" | "deliverables" | "settings";
+
+function Field({ label, value, onChange, textarea = false }: { label: string; value: string; onChange: (value: string) => void; textarea?: boolean }) {
+  return (
+    <label className="block space-y-2">
+      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{label}</span>
+      {textarea ? (
+        <textarea
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          className="min-h-[112px] w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900"
+        />
+      ) : (
+        <input
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900"
+        />
+      )}
+    </label>
+  );
+}
+
+function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return (
+    <label className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white p-3">
+      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">{label}</span>
+      <div className="flex items-center gap-2">
+        <input type="color" value={value} onChange={(event) => onChange(event.target.value)} className="h-9 w-12 cursor-pointer rounded-lg border-0 bg-transparent p-0" />
+        <span className="w-20 text-xs text-neutral-500">{value}</span>
+      </div>
+    </label>
+  );
+}
+
+export function PanelNav({ activePanel, setActivePanel }: { activePanel: Panel; setActivePanel: (panel: Panel) => void }) {
+  const nav = [
+    { id: "content", label: "Content", icon: FileText },
+    { id: "brand", label: "Brand", icon: Palette },
+    { id: "logos", label: "Logos", icon: Image },
+    { id: "team", label: "Team", icon: Users },
+    { id: "deliverables", label: "Deliverables", icon: LayoutTemplate },
+    { id: "settings", label: "Settings", icon: Settings }
+  ] as const;
+
+  return (
+    <nav className="space-y-2">
+      {nav.map((item) => {
+        const Icon = item.icon;
+        const isActive = activePanel === item.id;
+        return (
+          <button
+            key={item.id}
+            onClick={() => setActivePanel(item.id)}
+            className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
+              isActive ? "bg-neutral-950 text-white" : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-950"
+            }`}
+          >
+            <Icon size={18} />
+            {item.label}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+export default function EditorPanel({
+  proposal,
+  setProposal,
+  activePanel,
+  duplicateProposal,
+  saveNow,
+  deleteCurrent
+}: {
   proposal: Proposal;
   setProposal: React.Dispatch<React.SetStateAction<Proposal>>;
   activePanel: Panel;
   duplicateProposal: () => void;
-};
-
-function cloneProposal(proposal: Proposal): Proposal {
-  return JSON.parse(JSON.stringify(proposal));
-}
-
-export function EditorPanel({ proposal, setProposal, activePanel, duplicateProposal }: Props) {
+  saveNow: () => void;
+  deleteCurrent: () => void;
+}) {
   const update = (path: string, value: unknown) => {
     setProposal((current) => {
-      const next = cloneProposal(current) as unknown as Record<string, unknown>;
+      const next = structuredClone(current);
       const keys = path.split(".");
-      let target = next;
+      let target: Record<string, unknown> = next as unknown as Record<string, unknown>;
       keys.slice(0, -1).forEach((key) => {
         target = target[key] as Record<string, unknown>;
       });
       target[keys.at(-1) as string] = value;
-      return next as unknown as Proposal;
+      return next;
     });
   };
 
-  const addTeamMember = () => setProposal((current) => ({ ...current, team: [...current.team, { name: "New Team Member", role: "Role" }] }));
-  const addLogo = () => setProposal((current) => ({ ...current, clientLogos: [...current.clientLogos, "New Logo"] }));
+  const addLogo = () => update("clientLogos", [...proposal.clientLogos, "New Logo"]);
+  const addTeamMember = () => update("team", [...proposal.team, { name: "New Team Member", role: "Role" }]);
   const addDeliverable = () =>
-    setProposal((current) => ({
-      ...current,
-      deliverables: [
-        ...current.deliverables,
-        {
-          phase: String(current.deliverables.length + 1).padStart(2, "0"),
-          title: "New Deliverable",
-          description: "Describe this phase or deliverable.",
-          items: ["Included item"],
-        },
-      ],
-    }));
+    update("deliverables", [
+      ...proposal.deliverables,
+      {
+        phase: String(proposal.deliverables.length + 1).padStart(2, "0"),
+        title: "New Deliverable",
+        description: "Describe this phase or deliverable.",
+        items: ["Included item"]
+      }
+    ]);
 
   return (
     <section className="w-full border-r border-neutral-200 bg-neutral-50 p-4 lg:w-[420px] lg:shrink-0 lg:overflow-y-auto">
@@ -54,7 +121,7 @@ export function EditorPanel({ proposal, setProposal, activePanel, duplicatePropo
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="icon" onClick={duplicateProposal} title="Duplicate proposal"><Copy size={16} /></Button>
-          <Button size="icon" title="Save proposal"><Save size={16} /></Button>
+          <Button size="icon" onClick={saveNow} title="Save proposal"><Save size={16} /></Button>
         </div>
       </div>
 
@@ -84,23 +151,24 @@ export function EditorPanel({ proposal, setProposal, activePanel, duplicatePropo
 
       {activePanel === "logos" && (
         <Card><CardContent className="space-y-4">
-          <div className="flex items-center justify-between"><h3 className="font-semibold">Past Client Logos</h3><Button variant="outline" size="sm" onClick={addLogo}><Plus className="mr-2" size={14} /> Add</Button></div>
+          <div className="flex items-center justify-between"><h3 className="font-semibold">Past Client Logos</h3><Button variant="outline" size="sm" onClick={addLogo}><Plus size={14} /> Add</Button></div>
           {proposal.clientLogos.map((logo, index) => (
-            <Field key={`${logo}-${index}`} label={`Logo ${index + 1}`} value={logo} onChange={(value) => {
-              const next = [...proposal.clientLogos]; next[index] = value; update("clientLogos", next);
-            }} />
+            <div key={`${logo}-${index}`} className="flex gap-2">
+              <div className="flex-1"><Field label={`Logo ${index + 1}`} value={logo} onChange={(value) => { const next = [...proposal.clientLogos]; next[index] = value; update("clientLogos", next); }} /></div>
+              <Button variant="ghost" size="icon" className="mt-7" onClick={() => update("clientLogos", proposal.clientLogos.filter((_, i) => i !== index))}><Trash2 size={16} /></Button>
+            </div>
           ))}
         </CardContent></Card>
       )}
 
       {activePanel === "team" && (
         <Card><CardContent className="space-y-4">
-          <div className="flex items-center justify-between"><h3 className="font-semibold">Team Members</h3><Button variant="outline" size="sm" onClick={addTeamMember}><Plus className="mr-2" size={14} /> Add</Button></div>
+          <div className="flex items-center justify-between"><h3 className="font-semibold">Team Members</h3><Button variant="outline" size="sm" onClick={addTeamMember}><Plus size={14} /> Add</Button></div>
           {proposal.team.map((member, index) => (
             <div key={`${member.name}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
               <Field label="Name" value={member.name} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], name: value }; update("team", next); }} />
               <Field label="Role" value={member.role} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], role: value }; update("team", next); }} />
-              <Field label="Image URL" value={member.imageUrl ?? ""} onChange={(value) => { const next = [...proposal.team]; next[index] = { ...next[index], imageUrl: value }; update("team", next); }} />
+              <Button variant="ghost" size="sm" onClick={() => update("team", proposal.team.filter((_, i) => i !== index))}><Trash2 size={14} /> Remove</Button>
             </div>
           ))}
         </CardContent></Card>
@@ -108,13 +176,14 @@ export function EditorPanel({ proposal, setProposal, activePanel, duplicatePropo
 
       {activePanel === "deliverables" && (
         <Card><CardContent className="space-y-4">
-          <div className="flex items-center justify-between"><h3 className="font-semibold">Deliverables</h3><Button variant="outline" size="sm" onClick={addDeliverable}><Plus className="mr-2" size={14} /> Add</Button></div>
+          <div className="flex items-center justify-between"><h3 className="font-semibold">Deliverables</h3><Button variant="outline" size="sm" onClick={addDeliverable}><Plus size={14} /> Add</Button></div>
           {proposal.deliverables.map((item, index) => (
             <div key={`${item.title}-${index}`} className="space-y-3 rounded-3xl border border-neutral-200 bg-white p-4">
               <Field label="Phase" value={item.phase} onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], phase: value }; update("deliverables", next); }} />
               <Field label="Title" value={item.title} onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], title: value }; update("deliverables", next); }} />
               <Field label="Description" value={item.description} textarea onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], description: value }; update("deliverables", next); }} />
               <Field label="Included Items, comma separated" value={item.items.join(", ")} onChange={(value) => { const next = [...proposal.deliverables]; next[index] = { ...next[index], items: value.split(",").map((entry) => entry.trim()).filter(Boolean) }; update("deliverables", next); }} />
+              <Button variant="ghost" size="sm" onClick={() => update("deliverables", proposal.deliverables.filter((_, i) => i !== index))}><Trash2 size={14} /> Remove</Button>
             </div>
           ))}
         </CardContent></Card>
@@ -125,6 +194,7 @@ export function EditorPanel({ proposal, setProposal, activePanel, duplicatePropo
           <Field label="URL Slug" value={proposal.slug} onChange={(value) => update("slug", value)} />
           <Field label="Status" value={proposal.status} onChange={(value) => update("status", value)} />
           <div className="rounded-3xl bg-neutral-950 p-4 text-white"><p className="text-xs uppercase tracking-[0.2em] text-neutral-400">Preview URL</p><p className="mt-2 break-all text-sm">/proposals/{proposal.slug}</p></div>
+          <Button variant="danger" onClick={deleteCurrent}><Trash2 size={16} /> Delete this proposal</Button>
         </CardContent></Card>
       )}
     </section>
