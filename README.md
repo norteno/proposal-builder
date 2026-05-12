@@ -39,3 +39,8 @@ Use these settings when importing the repo:
 ## Note about image uploads
 
 This version stores uploaded images in the browser using `localStorage`, which is perfect for prototyping. For production/client sharing across devices, connect this to a real CMS/database and image storage service.
+
+
+## v7 update
+
+Proposal section background colors remain full-width, while section content is constrained to a 1600px maximum width.

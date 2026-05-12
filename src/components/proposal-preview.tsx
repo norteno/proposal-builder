@@ -136,7 +136,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
   return (
     <main className={clean ? "min-h-screen bg-neutral-200" : "flex-1 overflow-y-auto bg-neutral-200"}>
-      <div className="w-full overflow-hidden" style={themeVars}>
+      <div className="proposal-preview-shell w-full overflow-hidden" style={themeVars}>
         <section className="relative min-h-[680px] bg-[var(--primary)] px-8 py-10 sm:px-16 sm:py-14" style={{ color: proposal.sectionTextColors.hero }}>
           <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em] opacity-70"><StudioLogo proposal={proposal} /><span>The Graphic Standard</span></div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-2xl">
