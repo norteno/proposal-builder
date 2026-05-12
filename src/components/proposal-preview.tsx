@@ -22,13 +22,13 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
 
   return (
     <section className="bg-[#f8f7f4] px-8 py-20 text-[var(--dark-text)] sm:px-20">
-      <p className="text-xs uppercase tracking-[0.24em] text-neutral-400">Ballpark</p>
-      <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">Estimated Timeline</h2>
+      <p className="text-xs uppercase tracking-[0.1em] text-neutral-400">Ballpark</p>
+      <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.1em] sm:text-6xl">Estimated Timeline</h2>
       <div className="mt-16 overflow-x-auto pb-4">
         <div className="min-w-[920px]">
           <div className="grid grid-cols-[180px_1fr] gap-8">
             <div />
-            <div className="grid grid-cols-7 text-xs uppercase tracking-[0.18em] text-neutral-400">
+            <div className="grid grid-cols-7 text-xs uppercase tracking-[0.1em] text-neutral-400">
               {months.map((month) => <div key={month}>{month}</div>)}
             </div>
           </div>
@@ -36,7 +36,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
             <div className="space-y-8">
               {proposal.timeline.map((item, index) => (
                 <div key={`timeline-label-${index}`} className="h-14">
-                  <p className="font-bold uppercase tracking-[0.12em] text-neutral-600">{item.label}</p>
+                  <p className="font-bold uppercase tracking-[0.1em] text-neutral-600">{item.label}</p>
                   <p className="mt-1 text-neutral-400" style={{ color: proposal.sectionBodyColors.timeline }}>{item.duration}</p>
                 </div>
               ))}
@@ -49,7 +49,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
                 {proposal.timeline.map((item, index) => (
                   <div key={`timeline-bar-${index}`} className="relative h-14">
                     <div
-                      className="absolute top-2 flex h-10 items-center rounded-lg px-4 text-xs font-black uppercase tracking-[0.12em] shadow-lg"
+                      className="absolute top-2 flex h-10 items-center rounded-lg px-4 text-xs font-black uppercase tracking-[0.1em] shadow-lg"
                       style={{ left: pct(item.startMonth), width: `calc(${pct(item.endMonth)} - ${pct(item.startMonth)})`, backgroundColor: item.color, color: item.color.toLowerCase() === "#0d3d34" ? "#e9ff3d" : "#1b1b1b" }}
                     >
                       {item.label}
@@ -62,7 +62,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
           <div className="mt-12 border-t border-neutral-200 pt-8">
             <div className="flex flex-wrap gap-6">
               {proposal.timeline.map((item, index) => (
-                <div key={`legend-${index}`} className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-neutral-400">
+                <div key={`legend-${index}`} className="flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-neutral-400">
                   <span className="h-3 w-3 rounded" style={{ backgroundColor: item.color }} /> {item.label}
                 </div>
               ))}
