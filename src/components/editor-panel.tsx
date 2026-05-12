@@ -133,6 +133,7 @@ export default function EditorPanel({ proposal, setProposal, activePanel, duplic
 
       {activePanel === "brand" && <Card><CardContent className="space-y-4">
         <h3 className="font-semibold">Global Theme</h3>
+        <ImageUpload label="Header Logo" value={proposal.studioLogoUrl} onChange={(value) => update("studioLogoUrl", value)} />
         <ColorField label="Primary" value={proposal.theme.primary} onChange={(value) => update("theme.primary", value)} />
         <ColorField label="Secondary" value={proposal.theme.secondary} onChange={(value) => update("theme.secondary", value)} />
         <ColorField label="Cream" value={proposal.theme.cream} onChange={(value) => update("theme.cream", value)} />
@@ -140,14 +141,25 @@ export default function EditorPanel({ proposal, setProposal, activePanel, duplic
         <Field label="Heading Font" value={proposal.theme.headingFont} onChange={(value) => update("theme.headingFont", value)} />
         <Field label="Body Font" value={proposal.theme.bodyFont} onChange={(value) => update("theme.bodyFont", value)} />
         <div className="border-t border-neutral-200 pt-4"><h3 className="mb-3 font-semibold">Body Copy Colors Per Section</h3><div className="space-y-3">
-          <ColorField label="Hero Copy" value={proposal.sectionBodyColors.hero} onChange={(value) => update("sectionBodyColors.hero", value)} />
-          <ColorField label="Letter Copy" value={proposal.sectionBodyColors.letter} onChange={(value) => update("sectionBodyColors.letter", value)} />
-          <ColorField label="About Copy" value={proposal.sectionBodyColors.about} onChange={(value) => update("sectionBodyColors.about", value)} />
-          <ColorField label="Experience Copy" value={proposal.sectionBodyColors.experience} onChange={(value) => update("sectionBodyColors.experience", value)} />
-          <ColorField label="Team Copy" value={proposal.sectionBodyColors.team} onChange={(value) => update("sectionBodyColors.team", value)} />
-          <ColorField label="Deliverables Copy" value={proposal.sectionBodyColors.deliverables} onChange={(value) => update("sectionBodyColors.deliverables", value)} />
-          <ColorField label="Timeline Copy" value={proposal.sectionBodyColors.timeline} onChange={(value) => update("sectionBodyColors.timeline", value)} />
-          <ColorField label="Pricing Copy" value={proposal.sectionBodyColors.pricing} onChange={(value) => update("sectionBodyColors.pricing", value)} />
+          <ColorField label="Hero Body Copy" value={proposal.sectionBodyColors.hero} onChange={(value) => update("sectionBodyColors.hero", value)} />
+          <ColorField label="Letter Body Copy" value={proposal.sectionBodyColors.letter} onChange={(value) => update("sectionBodyColors.letter", value)} />
+          <ColorField label="About Body Copy" value={proposal.sectionBodyColors.about} onChange={(value) => update("sectionBodyColors.about", value)} />
+          <ColorField label="Experience Body Copy" value={proposal.sectionBodyColors.experience} onChange={(value) => update("sectionBodyColors.experience", value)} />
+          <ColorField label="Team Body Copy" value={proposal.sectionBodyColors.team} onChange={(value) => update("sectionBodyColors.team", value)} />
+          <ColorField label="Deliverables Body Copy" value={proposal.sectionBodyColors.deliverables} onChange={(value) => update("sectionBodyColors.deliverables", value)} />
+          <ColorField label="Timeline Body Copy" value={proposal.sectionBodyColors.timeline} onChange={(value) => update("sectionBodyColors.timeline", value)} />
+          <ColorField label="Pricing Body Copy" value={proposal.sectionBodyColors.pricing} onChange={(value) => update("sectionBodyColors.pricing", value)} />
+        </div></div>
+        <div className="border-t border-neutral-200 pt-4"><h3 className="mb-3 font-semibold">All Text Colors Per Section</h3><div className="space-y-3">
+          <ColorField label="Hero All Text" value={proposal.sectionTextColors.hero} onChange={(value) => update("sectionTextColors.hero", value)} />
+          <ColorField label="Letter All Text" value={proposal.sectionTextColors.letter} onChange={(value) => update("sectionTextColors.letter", value)} />
+          <ColorField label="About All Text" value={proposal.sectionTextColors.about} onChange={(value) => update("sectionTextColors.about", value)} />
+          <ColorField label="Experience All Text" value={proposal.sectionTextColors.experience} onChange={(value) => update("sectionTextColors.experience", value)} />
+          <ColorField label="Team All Text" value={proposal.sectionTextColors.team} onChange={(value) => update("sectionTextColors.team", value)} />
+          <ColorField label="Deliverables All Text" value={proposal.sectionTextColors.deliverables} onChange={(value) => update("sectionTextColors.deliverables", value)} />
+          <ColorField label="Timeline All Text" value={proposal.sectionTextColors.timeline} onChange={(value) => update("sectionTextColors.timeline", value)} />
+          <ColorField label="Pricing All Text" value={proposal.sectionTextColors.pricing} onChange={(value) => update("sectionTextColors.pricing", value)} />
+          <ColorField label="Thank You Text" value={proposal.sectionTextColors.handoff} onChange={(value) => update("sectionTextColors.handoff", value)} />
         </div></div>
       </CardContent></Card>}
 

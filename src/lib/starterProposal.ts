@@ -21,6 +21,7 @@ export const starterProposal: Proposal = {
   proofBody:
     "Our work blends strategy, visual systems, storytelling, and technical execution into a seamless process for clients and their audiences.",
   experienceImageUrl: "",
+  studioLogoUrl: "",
   theme: {
     primary: "#0d3d34",
     secondary: "#1e1e1e",
@@ -41,6 +42,18 @@ export const starterProposal: Proposal = {
     timeline: "#727272",
     pricing: "#d6e6de",
     handoff: "#d6e6de"
+  },
+
+  sectionTextColors: {
+    hero: "#ffffff",
+    letter: "#ffffff",
+    about: "#1b1b1b",
+    experience: "#ffffff",
+    team: "#ffffff",
+    deliverables: "#1b1b1b",
+    timeline: "#1b1b1b",
+    pricing: "#ffffff",
+    handoff: "#ffffff"
   },
   clientLogos: [
     { name: "R+Co" },

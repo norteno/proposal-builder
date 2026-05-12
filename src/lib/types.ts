@@ -21,6 +21,8 @@ export type SectionBodyColors = {
   handoff: string;
 };
 
+export type SectionTextColors = SectionBodyColors;
+
 export type LetterSigner = {
   name: string;
   role: string;
@@ -87,8 +89,10 @@ export type Proposal = {
   proofTitle: string;
   proofBody: string;
   experienceImageUrl?: string;
+  studioLogoUrl?: string;
   theme: ProposalTheme;
   sectionBodyColors: SectionBodyColors;
+  sectionTextColors: SectionTextColors;
   clientLogos: LogoItem[];
   team: TeamMember[];
   deliverables: Deliverable[];
