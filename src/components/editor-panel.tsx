@@ -9,7 +9,7 @@ export type Panel = "content" | "brand" | "logos" | "team" | "deliverables" | "t
 function Field({ label, value, onChange, textarea = false, type = "text" }: { label: string; value: string | number; onChange: (value: string) => void; textarea?: boolean; type?: string }) {
   return (
     <label className="block space-y-2">
-      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-500">{label}</span>
       {textarea ? (
         <textarea value={String(value)} onChange={(event) => onChange(event.target.value)} className="min-h-[112px] w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900" />
       ) : (
@@ -22,7 +22,7 @@ function Field({ label, value, onChange, textarea = false, type = "text" }: { la
 function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
     <label className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white p-3">
-      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-500">{label}</span>
       <div className="flex items-center gap-2">
         <input type="color" value={value} onChange={(event) => onChange(event.target.value)} className="h-9 w-12 cursor-pointer rounded-lg border-0 bg-transparent p-0" />
         <span className="w-20 text-xs text-neutral-500">{value}</span>
@@ -41,7 +41,7 @@ function ImageUpload({ label, value, onChange }: { label: string; value?: string
 
   return (
     <div className="space-y-2">
-      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-500">{label}</span>
       <div className="rounded-2xl border border-neutral-200 bg-white p-3">
         {value ? (
           <div className="mb-3 overflow-hidden rounded-xl border border-neutral-100 bg-neutral-100">
@@ -49,7 +49,7 @@ function ImageUpload({ label, value, onChange }: { label: string; value?: string
             <img src={value} alt="Uploaded preview" className="h-32 w-full object-cover" />
           </div>
         ) : (
-          <div className="mb-3 flex h-28 items-center justify-center rounded-xl bg-neutral-100 text-xs font-medium uppercase tracking-[0.16em] text-neutral-400">No image uploaded</div>
+          <div className="mb-3 flex h-28 items-center justify-center rounded-xl bg-neutral-100 text-xs font-medium uppercase tracking-[0.1em] text-neutral-400">No image uploaded</div>
         )}
         <div className="flex flex-wrap gap-2">
           <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-neutral-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800">
