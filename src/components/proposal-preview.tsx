@@ -25,11 +25,21 @@ function StudioLogo({ proposal }: { proposal: Proposal }) {
 }
 
 
-function SectionInner({ children, className = "py-20" }: { children: ReactNode; className?: string }) {
+function SectionInner({
+  children,
+  className = "py-20",
+  contentClassName = "max-w-[1200px]"
+}: {
+  children: ReactNode;
+  className?: string;
+  contentClassName?: string;
+}) {
   return (
     <div className="flex w-full justify-center">
-      <div className={`proposal-section-container w-full max-w-[1600px] px-8 sm:px-16 lg:px-20 ${className}`}>
-        {children}
+      <div className={`proposal-section-container flex w-full max-w-[1600px] justify-center px-8 sm:px-16 lg:px-20 ${className}`}>
+        <div className={`w-full ${contentClassName}`}>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -44,7 +54,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
 
   return (
     <section className="bg-[#f8f7f4]" style={{ color: proposal.sectionTextColors.timeline }}>
-      <SectionInner>
+      <SectionInner contentClassName="max-w-[1500px]">
       <p className="text-xs uppercase tracking-[0.24em] opacity-45">Ballpark</p>
       <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">Estimated Timeline</h2>
       <div className="mt-16 overflow-x-auto pb-4">
@@ -102,7 +112,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
 function PricingSection({ proposal }: { proposal: Proposal }) {
   return (
     <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.pricing }}>
-      <SectionInner>
+      <SectionInner contentClassName="max-w-[1400px]">
       <p className="text-xs uppercase tracking-[0.24em] opacity-50">{proposal.pricing.eyebrow}</p>
       <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">{proposal.pricing.title}</h2>
       <div className="mt-8 rounded-3xl bg-white/10 p-8 sm:p-10">
