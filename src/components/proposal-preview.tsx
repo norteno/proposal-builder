@@ -82,7 +82,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
                 {proposal.timeline.map((item, index) => (
                   <div key={`timeline-bar-${index}`} className="relative h-14">
                     <div
-                      className="absolute top-2 flex h-10 items-center rounded-lg px-4 text-xs font-black uppercase tracking-[0.12em] shadow-lg"
+                      className="absolute top-2 flex h-10 items-center rounded-lg px-4 text-xs font-black uppercase tracking-[0.12em]"
                       style={{ left: pct(item.startMonth), width: `calc(${pct(item.endMonth)} - ${pct(item.startMonth)})`, backgroundColor: item.color, color: item.color.toLowerCase() === "#0d3d34" ? "#e9ff3d" : "#1b1b1b" }}
                     >
                       {item.label}
@@ -115,7 +115,7 @@ function PricingSection({ proposal }: { proposal: Proposal }) {
       <SectionInner>
       <p className="text-xs uppercase tracking-[0.24em] opacity-50">{proposal.pricing.eyebrow}</p>
       <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">{proposal.pricing.title}</h2>
-      <div className="mt-8 rounded-3xl bg-white/10 p-8 sm:p-10">
+      <div className="mt-8 rounded-3xl p-8 sm:p-10" style={{ backgroundColor: proposal.pricing.totalBoxBackgroundColor }}>
         <div className="grid gap-8 md:grid-cols-[1fr_220px] md:items-start">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] opacity-50">{proposal.pricing.totalLabel}</p>
@@ -128,7 +128,7 @@ function PricingSection({ proposal }: { proposal: Proposal }) {
       <div className="my-10 flex items-center gap-6 text-xs uppercase tracking-[0.24em] opacity-50"><span className="h-px flex-1 bg-current opacity-30" />{proposal.pricing.splitLabel}<span className="h-px flex-1 bg-current opacity-30" /></div>
       <div className="grid gap-5 md:grid-cols-2">
         {proposal.pricing.items.map((item, index) => (
-          <article key={`pricing-card-${index}`} className="rounded-3xl border border-white/10 bg-white/10 p-8">
+          <article key={`pricing-card-${index}`} className="rounded-3xl border border-white/10 p-8" style={{ backgroundColor: proposal.pricing.cardBackgroundColor }}>
             <p className="text-xs uppercase tracking-[0.24em] opacity-45">{item.eyebrow}</p>
             <h3 className="mt-5 font-display text-2xl font-black uppercase tracking-[-0.04em]">{item.title}</h3>
             <p className="mt-4 font-display text-4xl font-black text-[var(--accent)]">{item.price}</p>
@@ -184,8 +184,8 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
         <section className="bg-[var(--cream)]" style={{ color: proposal.sectionTextColors.about }}>
           <SectionInner>
-          <div className="grid items-center gap-10 lg:grid-cols-[320px_1fr]">
-            {proposal.aboutImageUrl ? <div className="overflow-hidden rounded-[2rem] shadow-xl"><ImageOrPlaceholder src={proposal.aboutImageUrl} label="About the studio" className="aspect-[4/5] w-full bg-neutral-800/80 object-cover" /></div> : <div className="flex gap-3">{[0, 1, 2].map((item) => <div key={item} className="h-32 w-24 rounded-t-full bg-neutral-800/80 shadow-xl" />)}</div>}
+          <div className="grid items-center gap-10 lg:grid-cols-[520px_1fr]">
+            {proposal.aboutImageUrl ? <div className="overflow-hidden rounded-[2rem]"><ImageOrPlaceholder src={proposal.aboutImageUrl} label="About the studio" className="h-[430px] w-full rounded-[2rem] bg-neutral-800/80 object-cover" /></div> : <div className="flex gap-3">{[0, 1, 2].map((item) => <div key={item} className="h-40 w-32 rounded-t-full bg-neutral-800/80" />)}</div>}
             <div><p className="text-xs uppercase tracking-[0.22em] opacity-50">About the studio</p><h2 className="mt-4 max-w-lg font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">{proposal.aboutTitle}</h2><p className="mt-8 max-w-3xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.about }}>{proposal.aboutBody}</p></div>
           </div>
           <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-current/10 pt-8">{proposal.clientLogos.map((logo, index) => <div key={`logo-preview-${index}`} className="flex min-h-12 min-w-[96px] items-center justify-center">{logo.imageUrl ? <img src={logo.imageUrl} alt={logo.name} className="max-h-12 max-w-[130px] object-contain grayscale" /> : <span className="text-sm font-black uppercase tracking-[-0.04em] opacity-70">{logo.name}</span>}</div>)}</div>
@@ -194,7 +194,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
         <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.experience }}>
           <SectionInner>
-          <div className="grid gap-10 lg:grid-cols-[1fr_360px]"><div><p className="text-xs uppercase tracking-[0.22em] opacity-40">Experience</p><h2 className="mt-4 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">{proposal.proofTitle}</h2><p className="mt-8 max-w-2xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.experience }}>{proposal.proofBody}</p></div><div className="aspect-[4/3] overflow-hidden rounded-3xl bg-white/15 p-4 shadow-2xl">{proposal.experienceImageUrl ? <ImageOrPlaceholder src={proposal.experienceImageUrl} label="Experience" className="h-full w-full rounded-2xl bg-white/20 object-cover" /> : <div className="h-full rounded-2xl bg-gradient-to-br from-white/80 to-white/20" />}</div></div>
+          <div className="grid gap-10 lg:grid-cols-[1fr_520px]"><div><p className="text-xs uppercase tracking-[0.22em] opacity-40">Experience</p><h2 className="mt-4 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.05em] sm:text-5xl">{proposal.proofTitle}</h2><p className="mt-8 max-w-2xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.experience }}>{proposal.proofBody}</p></div><div className="h-[400px] overflow-hidden rounded-3xl">{proposal.experienceImageUrl ? <ImageOrPlaceholder src={proposal.experienceImageUrl} label="Experience" className="h-full w-full rounded-3xl bg-white/20 object-cover" /> : <div className="h-full rounded-3xl bg-gradient-to-br from-white/80 to-white/20" />}</div></div>
           </SectionInner>
         </section>
 
@@ -205,7 +205,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
         <TimelineSection proposal={proposal} />
         <PricingSection proposal={proposal} />
 
-        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="flex min-h-[320px] items-end justify-center py-12"><h2 className="font-display text-5xl font-black uppercase tracking-[-0.06em] opacity-35 sm:text-6xl">Thank You</h2></SectionInner></section>
+        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="flex min-h-[320px] items-end justify-center py-12"><h2 className="font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">Thank You</h2></SectionInner></section>
       </div>
     </div>
   );

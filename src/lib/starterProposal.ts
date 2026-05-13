@@ -23,37 +23,37 @@ export const starterProposal: Proposal = {
   experienceImageUrl: "",
   studioLogoUrl: "",
   theme: {
-    primary: "#0d3d34",
-    secondary: "#1e1e1e",
+    primary: "#F5E7E3",
+    secondary: "#061D00",
     cream: "#f4e7e2",
-    accent: "#d9f44f",
+    accent: "#DE675F",
     text: "#ffffff",
     darkText: "#1b1b1b",
     headingFont: "Inter",
     bodyFont: "Inter"
   },
   sectionBodyColors: {
-    hero: "#d6e6de",
-    letter: "#d7d7d7",
+    hero: "#061D00",
+    letter: "#F5E7E3",
     about: "#4b4b4b",
-    experience: "#d6e6de",
-    team: "#bdbdbd",
+    experience: "#061D00",
+    team: "#F5E7E3",
     deliverables: "#555555",
     timeline: "#727272",
-    pricing: "#d6e6de",
-    handoff: "#d6e6de"
+    pricing: "#061D00",
+    handoff: "#061D00"
   },
 
   sectionTextColors: {
-    hero: "#ffffff",
-    letter: "#ffffff",
-    about: "#1b1b1b",
-    experience: "#ffffff",
-    team: "#ffffff",
-    deliverables: "#1b1b1b",
-    timeline: "#1b1b1b",
-    pricing: "#ffffff",
-    handoff: "#ffffff"
+    hero: "#061D00",
+    letter: "#F5E7E3",
+    about: "#061D00",
+    experience: "#061D00",
+    team: "#F5E7E3",
+    deliverables: "#061D00",
+    timeline: "#061D00",
+    pricing: "#061D00",
+    handoff: "#061D00"
   },
   clientLogos: [
     { name: "R+Co" },
@@ -117,6 +117,8 @@ export const starterProposal: Proposal = {
     totalDescription: "All-in project fee for all phases of the online shopping experience. See creative and development breakout pricing below.",
     totalPrice: "$178k",
     splitLabel: "Split",
+    totalBoxBackgroundColor: "#ffffff",
+    cardBackgroundColor: "#ffffff",
     items: [
       {
         eyebrow: "The Graphic Standard",

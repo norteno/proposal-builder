@@ -71,6 +71,8 @@ export type PricingModule = {
   totalDescription: string;
   totalPrice: string;
   splitLabel: string;
+  totalBoxBackgroundColor: string;
+  cardBackgroundColor: string;
   items: PricingItem[];
 };
 
