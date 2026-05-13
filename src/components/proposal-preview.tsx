@@ -112,7 +112,7 @@ function PricingSection({ proposal }: { proposal: Proposal }) {
         <div className="grid gap-8 md:grid-cols-[1fr_220px] md:items-start">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] opacity-50">{proposal.pricing.totalLabel}</p>
-            <h3 className="mt-5 font-display text-3xl font-black uppercase tracking-[-0.04em]">{proposal.pricing.totalTitle}</h3>
+            <h3 className="mt-5 font-display text-3xl font-black tracking-[-0.02em]">{proposal.pricing.totalTitle}</h3>
             <p className="mt-6 max-w-xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.pricing }}>{proposal.pricing.totalDescription}</p>
           </div>
           <p className="font-display text-5xl font-black text-[var(--accent)] sm:text-6xl">{proposal.pricing.totalPrice}</p>
@@ -123,7 +123,7 @@ function PricingSection({ proposal }: { proposal: Proposal }) {
         {proposal.pricing.items.map((item, index) => (
           <article key={`pricing-card-${index}`} className="rounded-3xl border border-white/10 p-8" style={{ backgroundColor: proposal.pricing.cardBackgroundColor }}>
             <p className="text-xs uppercase tracking-[0.24em] opacity-45">{item.eyebrow}</p>
-            <h3 className="mt-5 font-display text-2xl font-black tracking-[-0.02em]">{item.title}</h3>
+            <h3 className="mt-5 font-display text-2xl font-black tracking-[-0.01em]">{item.title}</h3>
             <p className="mt-4 font-display text-4xl font-black text-[var(--accent)]">{item.price}</p>
             <ul className="mt-8 space-y-4 text-sm leading-6" style={{ color: proposal.sectionBodyColors.pricing }}>
               {item.items.map((included, itemIndex) => (
@@ -159,8 +159,8 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
-            <div className="mt-10 grid gap-6 border-t border-[#061D00] pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
-              <p>{proposal.introLetter}</p><div className="border-l border-[#061D00] pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
+            <div className="mt-10 grid gap-6 border-t border-[#061D00] opacity-40 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
+              <p>{proposal.introLetter}</p><div className="border-l border-[#061D00] opacity-40 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
             </div>
           </motion.div>
           </SectionInner>
@@ -190,7 +190,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
         <section className="bg-[var(--secondary)]" style={{ color: proposal.sectionTextColors.team }}><SectionInner><p className="mb-8 text-xs font-bold uppercase tracking-[0.22em] opacity-100">The proposed team</p><div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">{proposal.team.map((member, index) => <div key={`team-preview-${index}`}><ImageOrPlaceholder src={member.imageUrl} label={member.name} className="aspect-square w-full rounded-2xl bg-white/90 object-cover grayscale" /><p className="mt-3 text-sm font-bold">{member.name}</p><p className="text-xs" style={{ color: proposal.sectionBodyColors.team }}>{member.role}</p></div>)}</div></SectionInner></section>
 
-        <section className="bg-[var(--cream)]" style={{ color: proposal.sectionTextColors.deliverables }}><SectionInner><p className="text-xs uppercase tracking-[0.24em] opacity-50">Scope</p><h2 className="mt-2 font-display text-4xl font-black tracking-[-0.02em]">Web Design</h2><div className="mt-12 grid gap-10 md:grid-cols-2">{proposal.deliverables.map((item, index) => <article key={`deliverable-preview-${index}`} className="rounded-[1.75rem] border border-current/15 bg-[var(--cream)] p-6"><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-50">{item.phase}</p><h3 className="mt-3 font-display text-2xl font-black tracking-[-0.02em]">{item.title}</h3><p className="mt-4 text-sm leading-6" style={{ color: proposal.sectionBodyColors.deliverables }}>{item.description}</p><div className="mt-6 rounded-2xl border border-current/20 p-4"><p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] opacity-50">Includes</p><ul className="space-y-2 text-sm" style={{ color: proposal.sectionBodyColors.deliverables }}>{item.items.map((included, itemIndex) => <li key={`included-${index}-${itemIndex}`} className="flex gap-2"><span>•</span><span>{included}</span></li>)}</ul></div></article>)}</div></SectionInner></section>
+        <section className="bg-[var(--cream)]" style={{ color: proposal.sectionTextColors.deliverables }}><SectionInner><p className="text-xs uppercase tracking-[0.24em] opacity-50">Scope</p><h2 className="mt-2 font-display text-4xl font-black tracking-[-0.02em]">Web Design</h2><div className="mt-12 grid gap-10 md:grid-cols-2">{proposal.deliverables.map((item, index) => <article key={`deliverable-preview-${index}`} className="rounded-[1.75rem] border border-current/15 bg-[var(--cream)] p-6"><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-50">{item.phase}</p><h3 className="mt-3 font-display text-2xl font-black tracking-[-0.01em]">{item.title}</h3><p className="mt-4 text-sm leading-6" style={{ color: proposal.sectionBodyColors.deliverables }}>{item.description}</p><div className="mt-6 rounded-2xl border border-current/20 p-4"><p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] opacity-50">Includes</p><ul className="space-y-2 text-sm" style={{ color: proposal.sectionBodyColors.deliverables }}>{item.items.map((included, itemIndex) => <li key={`included-${index}-${itemIndex}`} className="flex gap-2"><span>•</span><span>{included}</span></li>)}</ul></div></article>)}</div></SectionInner></section>
 
         <TimelineSection proposal={proposal} />
         <PricingSection proposal={proposal} />
