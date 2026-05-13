@@ -44,3 +44,8 @@ This version stores uploaded images in the browser using `localStorage`, which i
 ## v7 update
 
 Proposal section background colors remain full-width, while section content is constrained to a 1600px maximum width.
+
+
+## v8 layout fix
+
+Section background colors span the full browser width, while direct content inside each section is constrained to `max-width: 1600px` and centered with `width: 100%`.
