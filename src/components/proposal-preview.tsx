@@ -21,7 +21,7 @@ function StudioLogo({ proposal }: { proposal: Proposal }) {
       <img src={proposal.studioLogoUrl} alt="Studio logo" className="max-h-12 max-w-[220px] object-contain opacity-100" />
     );
   }
-  return <span className="rounded-full border border-current/30 px-3 py-1 text-xs uppercase tracking-[0.22em] opacity-70">Upload Logo</span>;
+  return <span className="rounded-full border border-current/100 px-3 py-1 text-xs uppercase tracking-[0.22em] opacity-100">Upload Logo</span>;
 }
 
 
@@ -165,12 +165,21 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
       <div className="proposal-preview-shell w-full overflow-hidden" style={themeVars}>
         <section className="relative min-h-[680px] bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.hero }}>
           <SectionInner className="py-10 sm:py-14">
+<<<<<<< HEAD
           <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em]"><StudioLogo proposal={proposal} /><span className="opacity-70">The Graphic Standard</span></div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">{titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em></h1>
             <div className="mt-10 grid gap-6 border-t border-[#061D00] pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
               <p>{proposal.introLetter}</p><div className="border-l border-[#061D00] pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
+=======
+          <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em] opacity-100"><StudioLogo proposal={proposal} /><span>The Graphic Standard</span></div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
+            <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
+            <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">{titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em></h1>
+            <div className="mt-10 grid gap-6 border-t border-[##061D00] pt-6 text-sm sm:grid-cols-[1fr_220px]">
+              <p>{proposal.introLetter}</p><div className="border-l border-current/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
+>>>>>>> 4a99791592f6dc21c33324d555ba7dcc94c000bf
             </div>
           </motion.div>
           </SectionInner>
