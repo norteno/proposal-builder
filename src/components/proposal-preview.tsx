@@ -94,7 +94,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
           </div>
           <div className="mt-12 border-t border-neutral-200 pt-8">
             {<div className="flex flex-wrap gap-6">
-              {/*proposal.timeline.map((item, index) => (
+              {proposal.timeline.map((item, index) => (
                 <div key={`legend-${index}`} className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] opacity-45">
                   <span className="h-3 w-3 rounded" style={{ backgroundColor: item.color }} /> {item.label}
                 </div>
@@ -105,7 +105,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
         </div>
       </div>
       </SectionInner>
-    </section>*/}
+    </section>}
   );
 }
 
