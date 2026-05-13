@@ -31,10 +31,14 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
   );
 }
 
-function ImageUpload({ label, value, onChange }: { label: string; value?: string; onChange: (value: string) => void }) {
+function ImageUpload({ label, value, onChange, accept = "image/*", previewMode = "cover" }: { label: string; value?: string; onChange: (value: string) => void; accept?: string; previewMode?: "cover" | "contain" }) {
   const handleFile = (file?: File) => {
     if (!file) return;
     const reader = new FileReader();
+    if (accept.includes("png") && file.type !== "image/png") {
+      alert("Please upload a PNG file for this logo.");
+      return;
+    }
     reader.onload = () => onChange(String(reader.result || ""));
     reader.readAsDataURL(file);
   };
@@ -46,7 +50,7 @@ function ImageUpload({ label, value, onChange }: { label: string; value?: string
         {value ? (
           <div className="mb-3 overflow-hidden rounded-xl border border-neutral-100 bg-neutral-100">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={value} alt="Uploaded preview" className="h-32 w-full object-cover" />
+            <img src={value} alt="Uploaded preview" className={`h-32 w-full ${previewMode === "contain" ? "object-contain p-4" : "object-cover"}`} />
           </div>
         ) : (
           <div className="mb-3 flex h-28 items-center justify-center rounded-xl bg-neutral-100 text-xs font-medium uppercase tracking-[0.16em] text-neutral-400">No image uploaded</div>
@@ -54,11 +58,11 @@ function ImageUpload({ label, value, onChange }: { label: string; value?: string
         <div className="flex flex-wrap gap-2">
           <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-neutral-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800">
             <Upload size={14} /> Upload image
-            <input type="file" accept="image/*" className="hidden" onChange={(event) => handleFile(event.target.files?.[0])} />
+            <input type="file" accept={accept} className="hidden" onChange={(event) => handleFile(event.target.files?.[0])} />
           </label>
           {value ? <Button variant="outline" size="sm" onClick={() => onChange("")}><X size={14} /> Remove</Button> : null}
         </div>
-        <p className="mt-2 text-xs leading-5 text-neutral-400">Images are saved in your browser storage for now. Later, this can be replaced with real cloud uploads.</p>
+        <p className="mt-2 text-xs leading-5 text-neutral-400">{accept.includes("png") ? "PNG files work best for transparent logos. Images are saved in your browser storage for now." : "Images are saved in your browser storage for now. Later, this can be replaced with real cloud uploads."}</p>
       </div>
     </div>
   );
@@ -137,7 +141,7 @@ export default function EditorPanel({ proposal, setProposal, activePanel, duplic
           <h3 className="font-semibold">Header Logo</h3>
           <p className="mt-1 text-sm leading-6 text-neutral-500">Upload the logo that appears in the top-left of the proposal header. This replaces the “Add Logo” placeholder in preview mode.</p>
         </div>
-        <ImageUpload label="Top-left Header Logo" value={proposal.studioLogoUrl} onChange={(value) => update("studioLogoUrl", value)} />
+        <ImageUpload label="Top-left Header Logo (.PNG)" value={proposal.studioLogoUrl} onChange={(value) => update("studioLogoUrl", value)} accept="image/png,.png" previewMode="contain" />
       </CardContent></Card>}
 
       {activePanel === "brand" && <Card><CardContent className="space-y-4">

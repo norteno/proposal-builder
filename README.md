@@ -54,3 +54,8 @@ Section background colors span the full browser width, while direct content insi
 ## v11 layout update
 
 All proposal sections now use a flex-centered outer wrapper with a max-width 1600px inner content container. Section background colors still span the full browser width.
+
+
+## Header logo upload
+
+Open the **Header** panel in the editor and use **Top-left Header Logo (.PNG)** to upload a transparent PNG studio logo. The logo is stored in browser localStorage for this prototype.

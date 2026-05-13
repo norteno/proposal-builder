@@ -18,7 +18,7 @@ function StudioLogo({ proposal }: { proposal: Proposal }) {
   if (proposal.studioLogoUrl) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={proposal.studioLogoUrl} alt="Studio logo" className="max-h-10 max-w-[160px] object-contain" />
+      <img src={proposal.studioLogoUrl} alt="Studio logo" className="max-h-12 max-w-[220px] object-contain" />
     );
   }
   return <span className="rounded-full border border-current/30 px-3 py-1 text-xs uppercase tracking-[0.22em] opacity-70">Upload Logo</span>;
@@ -166,7 +166,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
         <section className="relative min-h-[680px] bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.hero }}>
           <SectionInner className="py-10 sm:py-14">
           <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em] opacity-70"><StudioLogo proposal={proposal} /><span>The Graphic Standard</span></div>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-2xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">{titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em></h1>
             <div className="mt-10 grid gap-6 border-t border-current/20 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
