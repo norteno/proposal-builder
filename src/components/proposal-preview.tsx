@@ -21,7 +21,7 @@ function StudioLogo({ proposal }: { proposal: Proposal }) {
       <img src={proposal.studioLogoUrl} alt="Studio logo" className="max-h-12 max-w-[220px] object-contain" />
     );
   }
-  return <span className="rounded-full border border-current/30 px-3 py-1 text-xs uppercase tracking-[0.22em] opacity-70">Upload Logo</span>;
+  return <span className="rounded-full border border-current/30 px-3 py-1 text-xs uppercase tracking-[0.22em] opacity-100">Upload Logo</span>;
 }
 
 
