@@ -30,8 +30,8 @@ export const starterProposal: Proposal = {
     accent: "#DE675F",
     text: "#ffffff",
     darkText: "#1b1b1b",
-    headingFont: "Inter",
-    bodyFont: "Inter"
+    headingFont: "Queens Condensed",
+    bodyFont: "GT Alpina"
   },
   sectionBodyColors: {
     hero: "#061D00",

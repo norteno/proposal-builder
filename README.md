@@ -59,3 +59,30 @@ All proposal sections now use a flex-centered outer wrapper with a max-width 160
 ## Header logo upload
 
 Open the **Header** panel in the editor and use **Top-left Header Logo (.PNG)** to upload a transparent PNG studio logo. The logo is stored in browser localStorage for this prototype.
+
+
+## Custom fonts
+
+The app is configured to use:
+
+- Heading: Queens Condensed
+- Body: GT Alpina
+
+For licensing reasons, font files are not bundled in this zip. Add your licensed font files here:
+
+```txt
+public/fonts/GT-Alpina-Standard-Light.otf
+public/fonts/QueensCondensed.woff2
+```
+
+If your Queens file is `.otf`, name it:
+
+```txt
+public/fonts/QueensCondensed.otf
+```
+
+The font-face declarations live in:
+
+```txt
+src/app/globals.css
+```
