@@ -169,7 +169,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">{titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em></h1>
-            <div className="mt-10 grid gap-6 border-t border-[##061D00]/100 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
+            <div className="mt-10 grid gap-6 border-t border-[##061D00] pt-6 text-sm sm:grid-cols-[1fr_220px]">
               <p>{proposal.introLetter}</p><div className="border-l border-current/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
             </div>
           </motion.div>
