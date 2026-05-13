@@ -27,15 +27,10 @@ function StudioLogo({ proposal }: { proposal: Proposal }) {
 
 function SectionInner({ children, className = "py-20" }: { children: ReactNode; className?: string }) {
   return (
-    <div
-      className={`mx-auto ${className}`}
-      style={{
-        width: "min(1600px, calc(100% - clamp(32px, 6vw, 160px)))",
-        maxWidth: "1600px",
-        boxSizing: "border-box"
-      }}
-    >
-      {children}
+    <div className="flex w-full justify-center">
+      <div className={`proposal-section-container w-full max-w-[1600px] px-8 sm:px-16 lg:px-20 ${className}`}>
+        {children}
+      </div>
     </div>
   );
 }

@@ -49,3 +49,8 @@ Proposal section background colors remain full-width, while section content is c
 ## v8 layout fix
 
 Section background colors span the full browser width, while direct content inside each section is constrained to `max-width: 1600px` and centered with `width: 100%`.
+
+
+## v11 layout update
+
+All proposal sections now use a flex-centered outer wrapper with a max-width 1600px inner content container. Section background colors still span the full browser width.
