@@ -83,6 +83,7 @@ export type Proposal = {
   status: string;
   title: string;
   eyebrow: string;
+  heroIntro: string;
   introLetter: string;
   letterSigners: LetterSigner[];
   aboutTitle: string;

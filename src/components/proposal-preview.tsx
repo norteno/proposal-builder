@@ -157,10 +157,10 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <SectionInner className="py-10 sm:py-14">
           <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em]"><StudioLogo proposal={proposal} /><span className="opacity-70">{proposal.headerText}</span></div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
-            <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
+            <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-8 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
             <div className="mt-10 grid gap-6 border-t border-[#061D00]/20 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
-              <p>{proposal.introLetter}</p><div className="border-l border-[#061D00]/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
+              <p>{proposal.heroIntro}</p><div className="border-l border-[#061D00]/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
             </div>
           </motion.div>
           </SectionInner>

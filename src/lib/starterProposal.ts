@@ -7,6 +7,8 @@ export const starterProposal: Proposal = {
   status: "Draft",
   title: "Website Design & Development Proposal",
   eyebrow: "Prepared for",
+  heroIntro:
+    "A focused proposal for your next brand and website experience.",
   introLetter:
     "Thank you for considering our team as your creative partner. This proposal outlines a flexible, editorial website experience designed to help your brand communicate clearly, convert thoughtfully, and scale with confidence.",
   letterSigners: [
