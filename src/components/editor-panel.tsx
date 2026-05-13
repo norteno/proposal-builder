@@ -4,7 +4,7 @@ import { Copy, FileText, Image, LayoutTemplate, Palette, Plus, Save, Settings, T
 import { Button, Card, CardContent } from "@/components/ui";
 import { Proposal } from "@/lib/types";
 
-export type Panel = "content" | "brand" | "logos" | "team" | "deliverables" | "timeline" | "pricing" | "settings";
+export type Panel = "content" | "header" | "brand" | "logos" | "team" | "deliverables" | "timeline" | "pricing" | "settings";
 
 function Field({ label, value, onChange, textarea = false, type = "text" }: { label: string; value: string | number; onChange: (value: string) => void; textarea?: boolean; type?: string }) {
   return (
@@ -67,6 +67,7 @@ function ImageUpload({ label, value, onChange }: { label: string; value?: string
 export function PanelNav({ activePanel, setActivePanel }: { activePanel: Panel; setActivePanel: (panel: Panel) => void }) {
   const nav = [
     { id: "content", label: "Content", icon: FileText },
+    { id: "header", label: "Header", icon: Image },
     { id: "brand", label: "Brand", icon: Palette },
     { id: "logos", label: "Logos", icon: Image },
     { id: "team", label: "Team", icon: Users },
@@ -131,9 +132,16 @@ export default function EditorPanel({ proposal, setProposal, activePanel, duplic
         <ImageUpload label="Experience Section Image" value={proposal.experienceImageUrl} onChange={(value) => update("experienceImageUrl", value)} />
       </CardContent></Card>}
 
+      {activePanel === "header" && <Card><CardContent className="space-y-5">
+        <div>
+          <h3 className="font-semibold">Header Logo</h3>
+          <p className="mt-1 text-sm leading-6 text-neutral-500">Upload the logo that appears in the top-left of the proposal header. This replaces the “Add Logo” placeholder in preview mode.</p>
+        </div>
+        <ImageUpload label="Top-left Header Logo" value={proposal.studioLogoUrl} onChange={(value) => update("studioLogoUrl", value)} />
+      </CardContent></Card>}
+
       {activePanel === "brand" && <Card><CardContent className="space-y-4">
         <h3 className="font-semibold">Global Theme</h3>
-        <ImageUpload label="Header Logo" value={proposal.studioLogoUrl} onChange={(value) => update("studioLogoUrl", value)} />
         <ColorField label="Primary" value={proposal.theme.primary} onChange={(value) => update("theme.primary", value)} />
         <ColorField label="Secondary" value={proposal.theme.secondary} onChange={(value) => update("theme.secondary", value)} />
         <ColorField label="Cream" value={proposal.theme.cream} onChange={(value) => update("theme.cream", value)} />

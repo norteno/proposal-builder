@@ -127,6 +127,7 @@ export default function Home() {
           <strong>Proposal OS</strong>
           <select value={activePanel} onChange={(event) => setActivePanel(event.target.value as Panel)} className="rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm">
             <option value="content">Content</option>
+            <option value="header">Header</option>
             <option value="brand">Brand</option>
             <option value="logos">Logos</option>
             <option value="team">Team</option>
