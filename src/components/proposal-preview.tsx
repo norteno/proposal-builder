@@ -158,8 +158,8 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em]"><StudioLogo proposal={proposal} /><span className="opacity-70">{proposal.headerText}</span></div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
-            <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
-            <div className="mt-10 grid gap-6 border-t border-[#061D00]/20 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
+            <h1 className="mt-8 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
+            <div className="mt-10 grid gap-6 border-t border-[#061D00]/20 pt-6 text-lg sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
               <p>{proposal.introLetter}</p><div className="border-l border-[#061D00]/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
             </div>
           </motion.div>
@@ -176,7 +176,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <SectionInner>
           <div className="grid items-center gap-10 lg:grid-cols-[520px_1fr]">
             {proposal.aboutImageUrl ? <div className="overflow-hidden rounded-[2rem]"><ImageOrPlaceholder src={proposal.aboutImageUrl} label="About the studio" className="h-[430px] w-full rounded-[2rem] bg-neutral-800/80 object-cover" /></div> : <div className="flex gap-3">{[0, 1, 2].map((item) => <div key={item} className="h-40 w-32 rounded-t-full bg-neutral-800/80" />)}</div>}
-            <div><p className="text-xs uppercase tracking-[0.22em] opacity-100">About the studio</p><h2 className="mt-6 max-w-lg font-display text-4xl font-black leading-none tracking-[-0.02em] sm:text-5xl">{proposal.aboutTitle}</h2><p className="mt-8 max-w-3xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.about }}>{proposal.aboutBody}</p></div>
+            <div><p className="text-xs uppercase tracking-[0.22em] opacity-100">About the studio</p><h2 className="mt-6 max-w-lg font-display text-4xl font-black leading-none tracking-[-0.02em] sm:text-5xl">{proposal.aboutTitle}</h2><p className="mt-6 max-w-3xl text-lg leading-6" style={{ color: proposal.sectionBodyColors.about }}>{proposal.aboutBody}</p></div>
           </div>
           <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-current/10 pt-8">{proposal.clientLogos.map((logo, index) => <div key={`logo-preview-${index}`} className="flex min-h-12 min-w-[96px] items-center justify-center">{logo.imageUrl ? <img src={logo.imageUrl} alt={logo.name} className="max-h-12 max-w-[130px] object-contain grayscale" /> : <span className="text-sm font-black uppercase tracking-[-0.04em] opacity-70">{logo.name}</span>}</div>)}</div>
           </SectionInner>
@@ -184,7 +184,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
         <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.experience }}>
           <SectionInner>
-          <div className="grid gap-10 lg:grid-cols-[1fr_520px]"><div><p className="text-xs uppercase tracking-[0.22em] opacity-100">Experience</p><h2 className="mt-6 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.02em] sm:text-5xl">{proposal.proofTitle}</h2><p className="mt-8 max-w-2xl text-lg leading-8" style={{ color: proposal.sectionBodyColors.experience }}>{proposal.proofBody}</p></div><div className="h-[400px] overflow-hidden rounded-3xl">{proposal.experienceImageUrl ? <ImageOrPlaceholder src={proposal.experienceImageUrl} label="Experience" className="h-full w-full rounded-3xl bg-white/20 object-cover" /> : <div className="h-full rounded-3xl bg-gradient-to-br from-white/80 to-white/20" />}</div></div>
+          <div className="grid gap-10 lg:grid-cols-[1fr_520px]"><div><p className="text-xs uppercase tracking-[0.22em] opacity-100">Experience</p><h2 className="mt-6 max-w-xl font-display text-4xl font-black leading-none tracking-[-0.02em] sm:text-5xl">{proposal.proofTitle}</h2><p className="mt-6 max-w-2xl text-lg leading-6" style={{ color: proposal.sectionBodyColors.experience }}>{proposal.proofBody}</p></div><div className="h-[400px] overflow-hidden rounded-3xl">{proposal.experienceImageUrl ? <ImageOrPlaceholder src={proposal.experienceImageUrl} label="Experience" className="h-full w-full rounded-3xl bg-white/20 object-cover" /> : <div className="h-full rounded-3xl bg-gradient-to-br from-white/80 to-white/20" />}</div></div>
           </SectionInner>
         </section>
 
