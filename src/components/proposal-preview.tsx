@@ -54,7 +54,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
 
   return (
     <section className="bg-[#f8f7f4]" style={{ color: proposal.sectionTextColors.timeline }}>
-      <SectionInner contentClassName="max-w-[1500px]">
+      <SectionInner>
       <p className="text-xs uppercase tracking-[0.24em] opacity-45">Ballpark</p>
       <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">Estimated Timeline</h2>
       <div className="mt-16 overflow-x-auto pb-4">
@@ -112,7 +112,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
 function PricingSection({ proposal }: { proposal: Proposal }) {
   return (
     <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.pricing }}>
-      <SectionInner contentClassName="max-w-[1400px]">
+      <SectionInner>
       <p className="text-xs uppercase tracking-[0.24em] opacity-50">{proposal.pricing.eyebrow}</p>
       <h2 className="mt-5 font-display text-5xl font-black uppercase tracking-[-0.06em] sm:text-6xl">{proposal.pricing.title}</h2>
       <div className="mt-8 rounded-3xl bg-white/10 p-8 sm:p-10">
@@ -178,7 +178,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
 
         <section className="bg-[var(--secondary)]" style={{ color: proposal.sectionTextColors.letter }}>
           <SectionInner className="py-20">
-          <div className="mx-auto max-w-3xl"><p className="mb-8 text-xs uppercase tracking-[0.24em] opacity-40">Letter</p><p className="text-lg leading-8" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.introLetter}</p><div className="mt-10 flex flex-wrap gap-8 text-sm" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.letterSigners.map((signer, index) => <div key={`letter-signer-${index}`} className="min-w-[140px]"><ImageOrPlaceholder src={signer.imageUrl} label={signer.name} className="h-12 w-12 rounded-full bg-white/20 object-cover" /><p className="mt-3" style={{ color: proposal.sectionTextColors.letter }}>{signer.name}</p><p>{signer.role}</p></div>)}</div></div>
+          <div className="max-w-3xl"><p className="mb-8 text-xs uppercase tracking-[0.24em] opacity-40">Letter</p><p className="text-lg leading-8" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.introLetter}</p><div className="mt-10 flex flex-wrap gap-8 text-sm" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.letterSigners.map((signer, index) => <div key={`letter-signer-${index}`} className="min-w-[140px]"><ImageOrPlaceholder src={signer.imageUrl} label={signer.name} className="h-12 w-12 rounded-full bg-white/20 object-cover" /><p className="mt-3" style={{ color: proposal.sectionTextColors.letter }}>{signer.name}</p><p>{signer.role}</p></div>)}</div></div>
           </SectionInner>
         </section>
 
