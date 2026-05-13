@@ -142,6 +142,7 @@ export default function EditorPanel({ proposal, setProposal, activePanel, duplic
           <p className="mt-1 text-sm leading-6 text-neutral-500">Upload the logo that appears in the top-left of the proposal header. This replaces the “Add Logo” placeholder in preview mode.</p>
         </div>
         <ImageUpload label="Top-left Header Logo (.PNG)" value={proposal.studioLogoUrl} onChange={(value) => update("studioLogoUrl", value)} accept="image/png,.png" previewMode="contain" />
+        <Field label="Top Header Text" value={proposal.headerText} onChange={(value) => update("headerText", value)} />
       </CardContent></Card>}
 
       {activePanel === "brand" && <Card><CardContent className="space-y-4">

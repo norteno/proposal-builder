@@ -22,6 +22,7 @@ export const starterProposal: Proposal = {
     "Our work blends strategy, visual systems, storytelling, and technical execution into a seamless process for clients and their audiences.",
   experienceImageUrl: "",
   studioLogoUrl: "",
+  headerText: "The Graphic Standard",
   theme: {
     primary: "#F5E7E3",
     secondary: "#061D00",

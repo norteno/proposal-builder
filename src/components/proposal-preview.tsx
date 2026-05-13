@@ -165,7 +165,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
       <div className="proposal-preview-shell w-full overflow-hidden" style={themeVars}>
         <section className="relative min-h-[680px] bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.hero }}>
           <SectionInner className="py-10 sm:py-14">
-          <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em]"><StudioLogo proposal={proposal} /><span className="opacity-70">The Graphic Standard</span></div>
+          <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em]"><StudioLogo proposal={proposal} /><span className="opacity-70">{proposal.headerText}</span></div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-6 font-display text-5xl font-black leading-[0.92] tracking-[-0.06em] sm:text-7xl">{titleWords.join(" ")} <em className="font-serif text-[var(--accent)]">{lastWord}</em></h1>

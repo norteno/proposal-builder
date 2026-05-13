@@ -92,6 +92,7 @@ export type Proposal = {
   proofBody: string;
   experienceImageUrl?: string;
   studioLogoUrl?: string;
+  headerText: string;
   theme: ProposalTheme;
   sectionBodyColors: SectionBodyColors;
   sectionTextColors: SectionTextColors;

@@ -63,6 +63,7 @@ export function normalizeProposal(proposal: Partial<Proposal>): Proposal {
     aboutImageUrl: proposal.aboutImageUrl || "",
     experienceImageUrl: proposal.experienceImageUrl || "",
     studioLogoUrl: proposal.studioLogoUrl || "",
+    headerText: proposal.headerText || starterProposal.headerText,
     clientLogos: normalizeLogos(proposal.clientLogos),
     team: proposal.team?.length ? proposal.team : starterProposal.team,
     deliverables: proposal.deliverables?.length ? proposal.deliverables : starterProposal.deliverables,
