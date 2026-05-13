@@ -25,8 +25,19 @@ function StudioLogo({ proposal }: { proposal: Proposal }) {
 }
 
 
-function SectionInner({ children, className = "px-8 py-20 sm:px-20" }: { children: ReactNode; className?: string }) {
-  return <div className={`mx-auto w-full max-w-[1600px] ${className}`}>{children}</div>;
+function SectionInner({ children, className = "py-20" }: { children: ReactNode; className?: string }) {
+  return (
+    <div
+      className={`mx-auto ${className}`}
+      style={{
+        width: "min(1600px, calc(100% - clamp(32px, 6vw, 160px)))",
+        maxWidth: "1600px",
+        boxSizing: "border-box"
+      }}
+    >
+      {children}
+    </div>
+  );
 }
 
 function TimelineSection({ proposal }: { proposal: Proposal }) {
@@ -148,7 +159,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
     <main className={clean ? "min-h-screen bg-neutral-200" : "flex-1 overflow-y-auto bg-neutral-200"}>
       <div className="proposal-preview-shell w-full overflow-hidden" style={themeVars}>
         <section className="relative min-h-[680px] bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.hero }}>
-          <SectionInner className="px-8 py-10 sm:px-16 sm:py-14">
+          <SectionInner className="py-10 sm:py-14">
           <div className="flex items-start justify-between text-xs uppercase tracking-[0.22em] opacity-70"><StudioLogo proposal={proposal} /><span>The Graphic Standard</span></div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-2xl">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--dark-text)]">{proposal.eyebrow} {proposal.clientName}</span>
@@ -161,8 +172,8 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
         </section>
 
         <section className="bg-[var(--secondary)]" style={{ color: proposal.sectionTextColors.letter }}>
-          <SectionInner className="px-8 py-20 sm:px-24">
-          <div className="max-w-2xl"><p className="mb-8 text-xs uppercase tracking-[0.24em] opacity-40">Letter</p><p className="text-lg leading-8" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.introLetter}</p><div className="mt-10 flex flex-wrap gap-8 text-sm" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.letterSigners.map((signer, index) => <div key={`letter-signer-${index}`} className="min-w-[140px]"><ImageOrPlaceholder src={signer.imageUrl} label={signer.name} className="h-12 w-12 rounded-full bg-white/20 object-cover" /><p className="mt-3" style={{ color: proposal.sectionTextColors.letter }}>{signer.name}</p><p>{signer.role}</p></div>)}</div></div>
+          <SectionInner className="py-20">
+          <div className="mx-auto max-w-3xl"><p className="mb-8 text-xs uppercase tracking-[0.24em] opacity-40">Letter</p><p className="text-lg leading-8" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.introLetter}</p><div className="mt-10 flex flex-wrap gap-8 text-sm" style={{ color: proposal.sectionBodyColors.letter }}>{proposal.letterSigners.map((signer, index) => <div key={`letter-signer-${index}`} className="min-w-[140px]"><ImageOrPlaceholder src={signer.imageUrl} label={signer.name} className="h-12 w-12 rounded-full bg-white/20 object-cover" /><p className="mt-3" style={{ color: proposal.sectionTextColors.letter }}>{signer.name}</p><p>{signer.role}</p></div>)}</div></div>
           </SectionInner>
         </section>
 
@@ -189,7 +200,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
         <TimelineSection proposal={proposal} />
         <PricingSection proposal={proposal} />
 
-        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="flex min-h-[320px] items-end justify-center px-8 py-12 sm:px-20"><h2 className="font-display text-5xl font-black uppercase tracking-[-0.06em] opacity-35 sm:text-6xl">Thank You</h2></SectionInner></section>
+        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="flex min-h-[320px] items-end justify-center py-12"><h2 className="font-display text-5xl font-black uppercase tracking-[-0.06em] opacity-35 sm:text-6xl">Thank You</h2></SectionInner></section>
       </div>
     </main>
   );
