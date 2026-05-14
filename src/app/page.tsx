@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Plus, Sparkles } from "lucide-react";
+import { Copy, Eye, Plus, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import EditorPanel, { Panel, PanelNav } from "@/components/editor-panel";
 import ProposalPreview from "@/components/proposal-preview";
@@ -40,6 +40,7 @@ export default function Home() {
   const [activePanel, setActivePanel] = useState<Panel>("content");
   const [loaded, setLoaded] = useState(false);
   const [syncStatus, setSyncStatus] = useState("Local draft");
+  const [shareCopied, setShareCopied] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -212,6 +213,22 @@ export default function Home() {
     window.open(`/proposals/${proposal.slug}`, "_blank", "noopener,noreferrer");
   };
 
+  const copyShareLink = async () => {
+    await saveNow();
+    const shareUrl = `${window.location.origin}/proposals/${proposal.slug}`;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareCopied(true);
+      setSyncStatus("Share link copied");
+      window.setTimeout(() => setShareCopied(false), 2000);
+    } catch (error) {
+      console.error(error);
+      window.prompt("Copy this client proposal link:", shareUrl);
+      setSyncStatus("Share link ready");
+    }
+  };
+
   return (
     <div className="flex h-screen bg-neutral-100 text-neutral-950">
       <aside className="hidden w-64 shrink-0 border-r border-neutral-200 bg-white p-4 lg:block">
@@ -258,6 +275,7 @@ export default function Home() {
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={createNewProposal}><Plus size={16} /> New</Button>
+              <Button variant="outline" onClick={copyShareLink}><Copy size={16} /> {shareCopied ? "Copied" : "Share"}</Button>
               <Button onClick={openPreview}><Eye size={16} /> Preview</Button>
             </div>
           </header>

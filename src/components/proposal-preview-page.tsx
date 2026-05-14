@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import { useEffect, useState } from "react";
 import ProposalPreview from "@/components/proposal-preview";
 import { getRemoteProposalBySlug } from "@/lib/proposals-api";
@@ -77,12 +78,5 @@ export default function ProposalPreviewPage({ slug }: { slug: string }) {
     );
   }
 
-  return (
-    <div>
-      <div className="fixed right-4 top-4 z-50 flex gap-2 rounded-2xl bg-white/90 p-2 shadow-xl backdrop-blur">
-        <Link href="/" className="rounded-xl bg-neutral-950 px-4 py-2 text-xs font-bold text-white">Edit</Link>
-      </div>
-      <ProposalPreview proposal={proposal} clean />
-    </div>
-  );
+  return <ProposalPreview proposal={proposal} clean />;
 }
