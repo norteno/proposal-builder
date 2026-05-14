@@ -59,7 +59,7 @@ export function normalizeProposal(proposal: Partial<Proposal>): Proposal {
     theme: { ...starterProposal.theme, ...(proposal.theme || {}) },
     sectionBodyColors: { ...starterProposal.sectionBodyColors, ...(proposal.sectionBodyColors || {}) },
     sectionTextColors: { ...starterProposal.sectionTextColors, ...(proposal.sectionTextColors || {}) },
-    letterSigners: proposal.letterSigners?.length ? proposal.letterSigners : starterProposal.letterSigners,
+    letterSigners: Array.isArray(proposal.letterSigners) ? proposal.letterSigners : starterProposal.letterSigners,
     aboutImageUrl: proposal.aboutImageUrl || "",
     experienceImageUrl: proposal.experienceImageUrl || "",
     studioLogoUrl: proposal.studioLogoUrl || "",

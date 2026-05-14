@@ -163,7 +163,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
             <div className="mt-6 grid gap-6 text-sm sm:grid-cols-[280px_220px]">
               <div>
                 <p className="uppercase tracking-[0.18em]">Created On</p>
-                <p className="mt-2">May 2026</p>
+                <p className="mt-2">{proposal.heroCreatedDate}</p>
               </div>
               <div className="border-l border-[#061D00]/20 pl-10">
                 <p className="uppercase tracking-[0.18em]">Prepared By</p>

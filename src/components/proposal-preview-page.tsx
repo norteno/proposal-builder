@@ -11,8 +11,19 @@ export default function ProposalPreviewPage({ slug }: { slug: string }) {
   const [proposal, setProposal] = useState<Proposal | null>(null);
 
   useEffect(() => {
-    const found = findProposalBySlug(slug);
-    setProposal(found || (slug === starterProposal.slug ? starterProposal : null));
+    const loadProposal = () => {
+      const found = findProposalBySlug(slug);
+      setProposal(found || (slug === starterProposal.slug ? starterProposal : null));
+    };
+
+    loadProposal();
+    window.addEventListener("storage", loadProposal);
+    window.addEventListener("focus", loadProposal);
+
+    return () => {
+      window.removeEventListener("storage", loadProposal);
+      window.removeEventListener("focus", loadProposal);
+    };
   }, [slug]);
 
   if (!proposal) {
