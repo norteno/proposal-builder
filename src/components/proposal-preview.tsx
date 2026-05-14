@@ -159,7 +159,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-44 max-w-[51rem]">
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-8 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
-            <div className="mt-10 h-px w-[600px] bg-[#061D00]/20" />
+            <div className="mt-10 h-px w-[650px] bg-[#061D00]/20" />
             <div className="mt-6 grid gap-6 text-sm sm:grid-cols-[280px_220px]">
               <div>
                 <p className="uppercase tracking-[0.18em]">Created On</p>
