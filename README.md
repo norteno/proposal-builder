@@ -105,4 +105,4 @@ supabase/storage-policies.sql
 .env.example
 ```
 
-When Supabase environment variables are present, uploaded images are sent to the `proposal-assets` bucket and proposals are saved to the `proposals` table. If Supabase is not configured, the app falls back to browser-local drafts!
+When Supabase environment variables are present, uploaded images are sent to the `proposal-assets` bucket and proposals are saved to the `proposals` table. If Supabase is not configured, the app falls back to browser-local drafts.
