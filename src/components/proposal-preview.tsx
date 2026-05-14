@@ -160,7 +160,14 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
             <span className="inline-flex rounded-full bg-[var(--accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">{proposal.eyebrow} {proposal.clientName}</span>
             <h1 className="mt-8 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
             <div className="mt-10 grid gap-6 border-t border-[#061D00]/20 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
-              <p>{proposal.heroIntro}</p><div className="border-l border-[#061D00]/20 pl-5"><p className="uppercase tracking-[0.18em]">Prepared By</p><p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p></div>
+              <div>
+                <p className="uppercase tracking-[0.18em]">Created By</p>
+                <p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>{proposal.heroCreatedDate}</p>
+              </div>
+              <div className="border-l border-[#061D00]/20 pl-5">
+                <p className="uppercase tracking-[0.18em]">Prepared By</p>
+                <p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>The Graphic Standard</p>
+              </div>
             </div>
           </motion.div>
           </SectionInner>

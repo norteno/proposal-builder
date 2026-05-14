@@ -84,6 +84,7 @@ export type Proposal = {
   title: string;
   eyebrow: string;
   heroIntro: string;
+  heroCreatedDate: string;
   introLetter: string;
   letterSigners: LetterSigner[];
   aboutTitle: string;
