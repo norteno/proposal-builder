@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "GT Alpina";
-  src: url("/fonts/GT-Alpina-Typewriter-Light") format("opentype");
+  src: url("/fonts/GT-Alpina-Typewriter-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
