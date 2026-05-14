@@ -161,7 +161,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
             <h1 className="mt-8 font-display text-5xl font-black leading-[0.92] tracking-[-0.02em] sm:text-7xl">{proposal.title}</h1>
             <div className="mt-10 grid gap-6 border-t border-[#061D00]/20 pt-6 text-sm sm:grid-cols-[1fr_220px]" style={{ color: proposal.sectionBodyColors.hero }}>
               <div>
-                <p className="uppercase tracking-[0.18em]">Created By</p>
+                <p className="uppercase tracking-[0.18em]">Created on</p>
                 <p className="mt-2" style={{ color: proposal.sectionTextColors.hero }}>{proposal.heroCreatedDate}</p>
               </div>
               <div className="border-l border-[#061D00]/20 pl-5">
