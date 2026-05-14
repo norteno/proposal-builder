@@ -213,19 +213,27 @@ export default function Home() {
     window.open(`/proposals/${proposal.slug}`, "_blank", "noopener,noreferrer");
   };
 
+  const getPublicProposalUrl = () => {
+    const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+    const baseUrl = configuredSiteUrl || window.location.origin;
+    const cleanBaseUrl = baseUrl.replace(/\/$/, "");
+
+    return `${cleanBaseUrl}/proposals/${proposal.slug}`;
+  };
+
   const copyShareLink = async () => {
     await saveNow();
-    const shareUrl = `${window.location.origin}/proposals/${proposal.slug}`;
+    const shareUrl = getPublicProposalUrl();
 
     try {
       await navigator.clipboard.writeText(shareUrl);
       setShareCopied(true);
-      setSyncStatus("Share link copied");
+      setSyncStatus("Public share link copied");
       window.setTimeout(() => setShareCopied(false), 2000);
     } catch (error) {
       console.error(error);
       window.prompt("Copy this client proposal link:", shareUrl);
-      setSyncStatus("Share link ready");
+      setSyncStatus("Public share link ready");
     }
   };
 
