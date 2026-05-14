@@ -3,17 +3,44 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ProposalPreview from "@/components/proposal-preview";
+import { getRemoteProposalBySlug } from "@/lib/proposals-api";
 import { findProposalBySlug } from "@/lib/storage";
 import { starterProposal } from "@/lib/starterProposal";
+import { hasSupabaseConfig } from "@/lib/supabase";
 import { Proposal } from "@/lib/types";
 
 export default function ProposalPreviewPage({ slug }: { slug: string }) {
   const [proposal, setProposal] = useState<Proposal | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadProposal = () => {
-      const found = findProposalBySlug(slug);
-      setProposal(found || (slug === starterProposal.slug ? starterProposal : null));
+    let cancelled = false;
+
+    const loadProposal = async () => {
+      setLoading(true);
+      try {
+        let found: Proposal | null | undefined = null;
+
+        if (hasSupabaseConfig) {
+          found = await getRemoteProposalBySlug(slug);
+        }
+
+        if (!found) {
+          found = findProposalBySlug(slug);
+        }
+
+        if (!cancelled) {
+          setProposal(found || (slug === starterProposal.slug ? starterProposal : null));
+        }
+      } catch (error) {
+        console.error(error);
+        if (!cancelled) {
+          const local = findProposalBySlug(slug);
+          setProposal(local || (slug === starterProposal.slug ? starterProposal : null));
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     };
 
     loadProposal();
@@ -21,10 +48,21 @@ export default function ProposalPreviewPage({ slug }: { slug: string }) {
     window.addEventListener("focus", loadProposal);
 
     return () => {
+      cancelled = true;
       window.removeEventListener("storage", loadProposal);
       window.removeEventListener("focus", loadProposal);
     };
   }, [slug]);
+
+  if (loading && !proposal) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-neutral-100 p-6">
+        <div className="rounded-3xl bg-white p-8 text-center shadow-xl">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-neutral-400">Loading proposal</p>
+        </div>
+      </main>
+    );
+  }
 
   if (!proposal) {
     return (

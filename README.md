@@ -86,3 +86,23 @@ The font-face declarations live in:
 ```txt
 src/app/globals.css
 ```
+
+
+## Supabase database-backed storage
+
+This version supports saving, duplicating, deleting, and previewing proposals through Supabase.
+
+See `SUPABASE_SETUP.md` for setup instructions.
+
+Important files:
+
+```txt
+src/lib/supabase.ts
+src/lib/proposals-api.ts
+src/lib/upload-asset.ts
+supabase/schema.sql
+supabase/storage-policies.sql
+.env.example
+```
+
+When Supabase environment variables are present, uploaded images are sent to the `proposal-assets` bucket and proposals are saved to the `proposals` table. If Supabase is not configured, the app falls back to browser-local drafts.

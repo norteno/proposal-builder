@@ -5,19 +5,31 @@ import { useEffect, useMemo, useState } from "react";
 import EditorPanel, { Panel, PanelNav } from "@/components/editor-panel";
 import ProposalPreview from "@/components/proposal-preview";
 import { Button } from "@/components/ui";
+import { createRemoteProposal, deleteRemoteProposal, listRemoteProposals, saveRemoteProposal } from "@/lib/proposals-api";
 import { starterProposal } from "@/lib/starterProposal";
 import { createSlug, getActiveProposalId, getStoredProposals, saveStoredProposals, setActiveProposalId } from "@/lib/storage";
+import { hasSupabaseConfig } from "@/lib/supabase";
 import { Proposal } from "@/lib/types";
 
 function cloneProposal(proposal: Proposal, proposals: Proposal[]): Proposal {
   const copyNumber = proposals.filter((item) => item.clientName.startsWith(proposal.clientName)).length + 1;
   const clientName = `${proposal.clientName} Copy ${copyNumber}`;
-  const slug = `${createSlug(proposal.slug)}-copy-${copyNumber}`;
+  const slug = `${createSlug(proposal.slug)}-copy-${Date.now()}`;
   return {
     ...structuredClone(proposal),
-    id: `${proposal.id}-copy-${Date.now()}`,
+    id: crypto.randomUUID(),
     clientName,
     slug,
+    status: "Draft"
+  };
+}
+
+function createBlankProposal(): Proposal {
+  return {
+    ...structuredClone(starterProposal),
+    id: crypto.randomUUID(),
+    clientName: "New Client",
+    slug: `new-client-${Date.now()}`,
     status: "Draft"
   };
 }
@@ -27,14 +39,45 @@ export default function Home() {
   const [proposal, setProposal] = useState<Proposal>(starterProposal);
   const [activePanel, setActivePanel] = useState<Panel>("content");
   const [loaded, setLoaded] = useState(false);
+  const [syncStatus, setSyncStatus] = useState("Local draft");
 
   useEffect(() => {
-    const stored = getStoredProposals();
-    const activeId = getActiveProposalId();
-    const active = stored.find((item) => item.id === activeId) || stored[0] || starterProposal;
-    setProposals(stored);
-    setProposal(active);
-    setLoaded(true);
+    let cancelled = false;
+
+    async function loadProposals() {
+      try {
+        const local = getStoredProposals();
+        let source = local;
+
+        if (hasSupabaseConfig) {
+          setSyncStatus("Loading from Supabase...");
+          const remote = await listRemoteProposals();
+          source = remote.length ? remote : local;
+          setSyncStatus(remote.length ? "Loaded from Supabase" : "No saved proposals yet");
+        }
+
+        if (cancelled) return;
+        const activeId = getActiveProposalId();
+        const active = source.find((item) => item.id === activeId) || source[0] || starterProposal;
+        setProposals(source);
+        setProposal(active);
+        saveStoredProposals(source);
+        setLoaded(true);
+      } catch (error) {
+        console.error(error);
+        if (cancelled) return;
+        const local = getStoredProposals();
+        const activeId = getActiveProposalId();
+        const active = local.find((item) => item.id === activeId) || local[0] || starterProposal;
+        setProposals(local);
+        setProposal(active);
+        setSyncStatus("Supabase load failed; using local drafts");
+        setLoaded(true);
+      }
+    }
+
+    loadProposals();
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
@@ -57,49 +100,115 @@ export default function Home() {
     setActiveProposalId(selected.id);
   };
 
-  const saveNow = () => {
+  const saveNow = async () => {
     const next = proposals.map((item) => (item.id === proposal.id ? proposal : item));
     saveStoredProposals(next);
     setProposals(next);
+
+    if (!hasSupabaseConfig) {
+      setSyncStatus("Saved locally only");
+      return;
+    }
+
+    try {
+      setSyncStatus("Saving to Supabase...");
+      const saved = await saveRemoteProposal(proposal);
+      const synced = next.map((item) => (item.id === saved.id ? saved : item));
+      saveStoredProposals(synced);
+      setProposals(synced);
+      setProposal(saved);
+      setSyncStatus("Saved to Supabase");
+    } catch (error) {
+      console.error(error);
+      setSyncStatus("Save failed. Check Supabase setup.");
+      alert("The proposal was saved locally, but the Supabase save failed. Check your table/policies and try again.");
+    }
   };
 
-  const duplicateProposal = () => {
+  const duplicateProposal = async () => {
     const nextProposal = cloneProposal(proposal, proposals);
     const next = [...proposals, nextProposal];
     setProposals(next);
     saveStoredProposals(next);
     setProposal(nextProposal);
     setActiveProposalId(nextProposal.id);
+
+    if (!hasSupabaseConfig) {
+      setSyncStatus("Duplicated locally only");
+      return;
+    }
+
+    try {
+      setSyncStatus("Duplicating in Supabase...");
+      const saved = await createRemoteProposal(nextProposal);
+      const synced = next.map((item) => (item.id === saved.id ? saved : item));
+      setProposals(synced);
+      saveStoredProposals(synced);
+      setProposal(saved);
+      setSyncStatus("Duplicate saved to Supabase");
+    } catch (error) {
+      console.error(error);
+      setSyncStatus("Duplicate saved locally; Supabase failed");
+      alert("The duplicate was created locally, but Supabase did not save it. Check your table/policies and try again.");
+    }
   };
 
-  const createNewProposal = () => {
-    const newProposal: Proposal = {
-      ...structuredClone(starterProposal),
-      id: `proposal-${Date.now()}`,
-      clientName: "New Client",
-      slug: `new-client-${Date.now()}`,
-      status: "Draft"
-    };
+  const createNewProposal = async () => {
+    const newProposal = createBlankProposal();
     const next = [...proposals, newProposal];
     setProposals(next);
     saveStoredProposals(next);
     setProposal(newProposal);
     setActiveProposalId(newProposal.id);
     setActivePanel("content");
+
+    if (!hasSupabaseConfig) {
+      setSyncStatus("New local draft created");
+      return;
+    }
+
+    try {
+      setSyncStatus("Creating in Supabase...");
+      const saved = await createRemoteProposal(newProposal);
+      const synced = next.map((item) => (item.id === saved.id ? saved : item));
+      setProposals(synced);
+      saveStoredProposals(synced);
+      setProposal(saved);
+      setSyncStatus("New proposal saved to Supabase");
+    } catch (error) {
+      console.error(error);
+      setSyncStatus("New draft local only; Supabase failed");
+    }
   };
 
-  const deleteCurrent = () => {
+  const deleteCurrent = async () => {
     if (proposals.length <= 1) return;
-    const next = proposals.filter((item) => item.id !== proposal.id);
+    const deleting = proposal;
+    const next = proposals.filter((item) => item.id !== deleting.id);
     const fallback = next[0];
     setProposals(next);
     saveStoredProposals(next);
     setProposal(fallback);
     setActiveProposalId(fallback.id);
+
+    if (!hasSupabaseConfig) {
+      setSyncStatus("Deleted locally only");
+      return;
+    }
+
+    try {
+      setSyncStatus("Deleting from Supabase...");
+      await deleteRemoteProposal(deleting.id);
+      setSyncStatus("Deleted from Supabase");
+    } catch (error) {
+      console.error(error);
+      setSyncStatus("Deleted locally; Supabase failed");
+      alert("The proposal was deleted locally, but the Supabase delete failed.");
+    }
   };
 
-  const openPreview = () => {
-    saveNow();
+  const openPreview = async () => {
+    await saveNow();
     window.open(`/proposals/${proposal.slug}`, "_blank", "noopener,noreferrer");
   };
 
@@ -145,6 +254,7 @@ export default function Home() {
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-neutral-400">Live Preview</p>
               <p className="text-sm font-medium">/proposals/{proposal.slug}</p>
+              <p className="mt-1 text-xs text-neutral-400">{syncStatus}</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={createNewProposal}><Plus size={16} /> New</Button>

@@ -2,6 +2,7 @@
 
 import { Copy, FileText, Image, LayoutTemplate, Palette, Plus, Save, Settings, Trash2, Upload, Users, X, CalendarDays, DollarSign } from "lucide-react";
 import { Button, Card, CardContent } from "@/components/ui";
+import { uploadProposalAsset } from "@/lib/upload-asset";
 import { Proposal } from "@/lib/types";
 
 export type Panel = "content" | "header" | "brand" | "logos" | "team" | "deliverables" | "timeline" | "pricing" | "settings";
@@ -32,15 +33,20 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
 }
 
 function ImageUpload({ label, value, onChange, accept = "image/*", previewMode = "cover" }: { label: string; value?: string; onChange: (value: string) => void; accept?: string; previewMode?: "cover" | "contain" }) {
-  const handleFile = (file?: File) => {
+  const handleFile = async (file?: File) => {
     if (!file) return;
-    const reader = new FileReader();
     if (accept.includes("png") && file.type !== "image/png") {
       alert("Please upload a PNG file for this logo.");
       return;
     }
-    reader.onload = () => onChange(String(reader.result || ""));
-    reader.readAsDataURL(file);
+
+    try {
+      const publicUrl = await uploadProposalAsset(file);
+      onChange(publicUrl);
+    } catch (error) {
+      console.error(error);
+      alert("The upload failed. Check your Supabase Storage bucket and policies, then try again.");
+    }
   };
 
   return (
@@ -62,7 +68,7 @@ function ImageUpload({ label, value, onChange, accept = "image/*", previewMode =
           </label>
           {value ? <Button variant="outline" size="sm" onClick={() => onChange("")}><X size={14} /> Remove</Button> : null}
         </div>
-        <p className="mt-2 text-xs leading-5 text-neutral-400">{accept.includes("png") ? "PNG files work best for transparent logos. Images are saved in your browser storage for now." : "Images are saved in your browser storage for now. Later, this can be replaced with real cloud uploads."}</p>
+        <p className="mt-2 text-xs leading-5 text-neutral-400">{accept.includes("png") ? "PNG files work best for transparent logos. Images upload to Supabase Storage when configured." : "Images upload to Supabase Storage when configured."}</p>
       </div>
     </div>
   );
