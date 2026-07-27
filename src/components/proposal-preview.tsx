@@ -209,7 +209,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
         <TimelineSection proposal={proposal} />
         <PricingSection proposal={proposal} />
 
-        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="min-h-[320px] py-12" contentClassName="flex min-h-[320px] items-end justify-center text-center"><h2 className="font-display text-5xl font-black tracking-[-0.02em] sm:text-6xl">Thank You</h2></SectionInner></section>
+        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="min-h-[320px] py-12" contentClassName="flex min-h-[320px] items-end justify-center text-center"><h2 className="font-display text-3xl font-black tracking-[-0.02em] sm:text-6xl">Thank you for considering The Graphic Standard</h2></SectionInner></section>
       </div>
     </div>
   );
