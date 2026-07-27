@@ -106,6 +106,7 @@ export const starterProposal: Proposal = {
     }
   ],
   timelineUnit: "months",
+  timelineLength: 7,
   timeline: [
     { label: "Discovery", duration: "4 weeks", startMonth: 1.3, endMonth: 2.4, color: "#e9ff3d" },
     { label: "Web Design", duration: "~16 weeks", startMonth: 1.6, endMonth: 6.0, color: "#18cbaa" },

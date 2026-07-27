@@ -46,11 +46,15 @@ function SectionInner({
 }
 
 function TimelineSection({ proposal }: { proposal: Proposal }) {
-  const timelineLabels = proposal.timelineUnit === "weeks"
-    ? ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7+"]
-    : ["Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6", "Month 7+"];
+  const timelineUnitName = proposal.timelineUnit === "weeks" ? "Week" : "Month";
+  const timelineLength = Math.max(1, Math.round(proposal.timelineLength || 7));
+  const timelineLabels = Array.from({ length: timelineLength }, (_, index) => {
+    const unitNumber = index + 1;
+    const suffix = unitNumber === timelineLength ? "+" : "";
+    return `${timelineUnitName} ${unitNumber}${suffix}`;
+  });
   const minTimelineUnit = 1;
-  const maxTimelineUnit = 8.2;
+  const maxTimelineUnit = timelineLength + 1.2;
   const span = maxTimelineUnit - minTimelineUnit;
   const pct = (value: number) => `${Math.max(0, Math.min(100, ((value - minTimelineUnit) / span) * 100))}%`;
 
@@ -63,7 +67,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
         <div className="min-w-[920px]">
           <div className="grid grid-cols-[180px_1fr] gap-8">
             <div />
-            <div className="grid grid-cols-7 text-xs uppercase tracking-[0.18em] opacity-45">
+            <div className="grid text-xs uppercase tracking-[0.18em] opacity-45" style={{ gridTemplateColumns: `repeat(${timelineLabels.length}, minmax(0, 1fr))` }}>
               {timelineLabels.map((label) => <div key={label}>{label}</div>)}
             </div>
           </div>
@@ -77,7 +81,7 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
               ))}
             </div>
             <div className="relative border-l border-neutral-200">
-              <div className="absolute inset-y-0 left-0 right-0 grid grid-cols-7">
+              <div className="absolute inset-y-0 left-0 right-0 grid" style={{ gridTemplateColumns: `repeat(${timelineLabels.length}, minmax(0, 1fr))` }}>
                 {timelineLabels.map((label) => <div key={`grid-${label}`} className="border-r border-neutral-200" />)}
               </div>
               <div className="relative z-10 space-y-8 py-2">

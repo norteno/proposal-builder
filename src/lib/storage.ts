@@ -28,6 +28,23 @@ function normalizeTimelineUnit(value: unknown): TimelineUnit {
   return value === "weeks" ? "weeks" : "months";
 }
 
+
+function normalizeTimelineLength(value: unknown, timeline: unknown): number {
+  const explicitLength = Number(value);
+  const timelineItems = Array.isArray(timeline) ? timeline : [];
+  const largestEnd = timelineItems.reduce((max, item) => {
+    if (!item || typeof item !== "object") return max;
+    const end = Number((item as Partial<TimelineItem>).endMonth);
+    return Number.isFinite(end) ? Math.max(max, Math.ceil(end)) : max;
+  }, 0);
+
+  if (Number.isFinite(explicitLength) && explicitLength >= 1) {
+    return Math.max(1, Math.round(explicitLength));
+  }
+
+  return Math.max(starterProposal.timelineLength || 7, largestEnd || 0);
+}
+
 function normalizeTimeline(timeline: unknown): TimelineItem[] {
   if (!Array.isArray(timeline)) return starterProposal.timeline;
   return timeline.map((item, index) => {
@@ -74,6 +91,7 @@ export function normalizeProposal(proposal: Partial<Proposal>): Proposal {
     team: proposal.team?.length ? proposal.team : starterProposal.team,
     deliverables: proposal.deliverables?.length ? proposal.deliverables : starterProposal.deliverables,
     timelineUnit: normalizeTimelineUnit(proposal.timelineUnit),
+    timelineLength: normalizeTimelineLength(proposal.timelineLength, proposal.timeline),
     timeline: normalizeTimeline(proposal.timeline),
     timelineNote: proposal.timelineNote || starterProposal.timelineNote,
     pricing: {

@@ -104,6 +104,7 @@ export type Proposal = {
   team: TeamMember[];
   deliverables: Deliverable[];
   timelineUnit: TimelineUnit;
+  timelineLength: number;
   timeline: TimelineItem[];
   timelineNote: string;
   pricing: PricingModule;
