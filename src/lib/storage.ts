@@ -39,14 +39,24 @@ function normalizeTimeline(timeline: unknown): TimelineItem[] {
 }
 
 function normalizePricingItems(items: unknown): PricingItem[] {
-  if (!Array.isArray(items) || !items.length) return starterProposal.pricing.items;
+  // If pricing items are missing entirely, use starter defaults.
+  // If pricing items are an empty array, keep them empty.
+  if (!Array.isArray(items)) return starterProposal.pricing.items;
+
   return items.map((item) => {
-    const entry = item && typeof item === "object" ? (item as Partial<PricingItem> & { description?: string; note?: string }) : {};
+    const entry = item && typeof item === "object" 
+      ? (item as Partial<PricingItem> & { description?: string; note?: string }) 
+      : {};
+
     return {
       eyebrow: entry.eyebrow || entry.note || "",
       title: entry.title || "Pricing Item",
       price: entry.price || "$0",
-      items: Array.isArray(entry.items) && entry.items.length ? entry.items : entry.description ? [entry.description] : []
+      items: Array.isArray(entry.items) 
+        ? entry.items 
+        : entry.description 
+          ? [entry.description] 
+          : []
     };
   });
 }
