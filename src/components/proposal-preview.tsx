@@ -88,11 +88,11 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
                 {proposal.timeline.map((item, index) => (
                   <div key={`timeline-bar-${index}`} className="relative h-14">
                     <div
-                      className="absolute top-2 flex h-10 items-center rounded-lg px-4 text-xs font-black uppercase tracking-[0.12em]"
-                      style={{ left: pct(item.startMonth), width: `calc(${pct(item.endMonth)} - ${pct(item.startMonth)})`, backgroundColor: item.color, color: item.color.toLowerCase() === "#0d3d34" ? "#e9ff3d" : "#1b1b1b" }}
-                    >
-                      {item.label}
-                    </div>
+                      className="absolute top-2 h-10 rounded-lg"
+                      aria-label={item.label}
+                      title={item.label}
+                      style={{ left: pct(item.startMonth), width: `calc(${pct(item.endMonth)} - ${pct(item.startMonth)})`, backgroundColor: item.color }}
+                    />
                   </div>
                 ))}
               </div>
