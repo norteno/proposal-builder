@@ -49,10 +49,9 @@ function TimelineSection({ proposal }: { proposal: Proposal }) {
   const timelineUnitName = proposal.timelineUnit === "weeks" ? "Week" : "Month";
   const timelineLength = Math.max(1, Math.round(proposal.timelineLength || 7));
   const timelineLabels = Array.from({ length: timelineLength }, (_, index) => {
-    const unitNumber = index + 1;
-    const suffix = unitNumber === timelineLength ? "+" : "";
-    return `${timelineUnitName} ${unitNumber}${suffix}`;
-  });
+  const unitNumber = index + 1;
+  return `${timelineUnitName} ${unitNumber}`;
+});
   const minTimelineUnit = 1;
   const maxTimelineUnit = timelineLength + 1.2;
   const span = maxTimelineUnit - minTimelineUnit;
