@@ -1,5 +1,5 @@
 import { starterProposal } from "./starterProposal";
-import { LogoItem, PricingItem, Proposal, TimelineItem } from "./types";
+import { LogoItem, PricingItem, Proposal, TimelineItem, TimelineUnit } from "./types";
 
 const STORAGE_KEY = "proposal-builder:proposals";
 const ACTIVE_KEY = "proposal-builder:active-id";
@@ -24,8 +24,12 @@ function normalizeLogos(logos: unknown): LogoItem[] {
   });
 }
 
+function normalizeTimelineUnit(value: unknown): TimelineUnit {
+  return value === "weeks" ? "weeks" : "months";
+}
+
 function normalizeTimeline(timeline: unknown): TimelineItem[] {
-  if (!Array.isArray(timeline) || !timeline.length) return starterProposal.timeline;
+  if (!Array.isArray(timeline)) return starterProposal.timeline;
   return timeline.map((item, index) => {
     const entry = item && typeof item === "object" ? (item as Partial<TimelineItem> & { title?: string }) : {};
     return {
@@ -39,24 +43,14 @@ function normalizeTimeline(timeline: unknown): TimelineItem[] {
 }
 
 function normalizePricingItems(items: unknown): PricingItem[] {
-  // If pricing items are missing entirely, use starter defaults.
-  // If pricing items are an empty array, keep them empty.
   if (!Array.isArray(items)) return starterProposal.pricing.items;
-
   return items.map((item) => {
-    const entry = item && typeof item === "object" 
-      ? (item as Partial<PricingItem> & { description?: string; note?: string }) 
-      : {};
-
+    const entry = item && typeof item === "object" ? (item as Partial<PricingItem> & { description?: string; note?: string }) : {};
     return {
       eyebrow: entry.eyebrow || entry.note || "",
       title: entry.title || "Pricing Item",
       price: entry.price || "$0",
-      items: Array.isArray(entry.items) 
-        ? entry.items 
-        : entry.description 
-          ? [entry.description] 
-          : []
+      items: Array.isArray(entry.items) ? entry.items : entry.description ? [entry.description] : []
     };
   });
 }
@@ -79,6 +73,7 @@ export function normalizeProposal(proposal: Partial<Proposal>): Proposal {
     clientLogos: normalizeLogos(proposal.clientLogos),
     team: proposal.team?.length ? proposal.team : starterProposal.team,
     deliverables: proposal.deliverables?.length ? proposal.deliverables : starterProposal.deliverables,
+    timelineUnit: normalizeTimelineUnit(proposal.timelineUnit),
     timeline: normalizeTimeline(proposal.timeline),
     timelineNote: proposal.timelineNote || starterProposal.timelineNote,
     pricing: {

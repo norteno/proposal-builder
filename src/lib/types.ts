@@ -48,6 +48,8 @@ export type Deliverable = {
   items: string[];
 };
 
+export type TimelineUnit = "months" | "weeks";
+
 export type TimelineItem = {
   label: string;
   duration: string;
@@ -101,6 +103,7 @@ export type Proposal = {
   clientLogos: LogoItem[];
   team: TeamMember[];
   deliverables: Deliverable[];
+  timelineUnit: TimelineUnit;
   timeline: TimelineItem[];
   timelineNote: string;
   pricing: PricingModule;

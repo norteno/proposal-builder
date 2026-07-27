@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: "Queens Condensed";
-  src: url("/fonts/QueensCondensed-Bold.woff2") format("woff2"),
+  src: url("/fonts/QueensCondensed.woff2") format("woff2"),
        url("/fonts/QueensCondensed.otf") format("opentype");
   font-weight: 400 900;
   font-style: normal;
