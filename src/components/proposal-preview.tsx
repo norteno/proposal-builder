@@ -219,7 +219,7 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
     <h2 className="mt-6 max-w-xl text-lg leading-8">
       Thank you for considering TGS.
       <br />
-      Contact: Shane Bzdok shane@thegraphicstandard.com 512.761.0367
+      Shane Bzdok shane@thegraphicstandard.com 512.761.0367
     </h2>
   </SectionInner>
 </section>      </div>
