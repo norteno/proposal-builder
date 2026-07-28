@@ -213,15 +213,19 @@ export default function Home() {
     window.open(`/proposals/${proposal.slug}`, "_blank", "noopener,noreferrer");
   };
 
+  const getPublicProposalUrl = (slug: string) => {
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "https://proposal-builder-dun.vercel.app";
+
+    return `${siteUrl.replace(/\/$/, "")}/proposals/${slug}`;
+  };
+
   const copyShareLink = async () => {
     await saveNow();
-const getPublicProposalUrl = (slug: string) => {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://proposal-builder-dun.vercel.app";
 
-  return `${siteUrl.replace(/\/$/, "")}/proposals/${slug}`;
-};
+    const shareUrl = getPublicProposalUrl(proposal.slug);
+
     try {
       await navigator.clipboard.writeText(shareUrl);
       setShareCopied(true);
