@@ -124,8 +124,10 @@ function PricingSection({ proposal }: { proposal: Proposal }) {
           <p className="font-display text-5xl font-black text-[var(--accent)] sm:text-6xl">{proposal.pricing.totalPrice}</p>
         </div>
       </div>
-      <div className="my-10 h-px w-full bg-current opacity-30" />
-      <div className="grid gap-5 md:grid-cols-2">
+{/* 
+<div className="my-10 h-px w-full bg-current opacity-30" />
+*/}
+        <div className="grid gap-5 md:grid-cols-2">
         {proposal.pricing.items.map((item, index) => (
           <article key={`pricing-card-${index}`} className="rounded-3xl border border-white/10 p-8" style={{ backgroundColor: proposal.pricing.cardBackgroundColor }}>
             <p className="text-xs uppercase tracking-[0.24em] opacity-100">{item.eyebrow}</p>
