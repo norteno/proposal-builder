@@ -209,7 +209,9 @@ export default function ProposalPreview({ proposal, clean = false }: { proposal:
         <TimelineSection proposal={proposal} />
         <PricingSection proposal={proposal} />
 
-        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="min-h-[320px] py-12" contentClassName="flex min-h-[320px] items-end justify-center text-center"><h2 className="mt-6 max-w-xl text-lg leading-8">Thank you for considering The Graphic Standard</h2></SectionInner></section>
+        <section className="bg-[var(--primary)]" style={{ color: proposal.sectionTextColors.handoff }}><SectionInner className="min-h-[320px] py-12" contentClassName="flex min-h-[320px] items-end justify-center text-center"><h2 className="mt-6 max-w-xl text-lg leading-8">Thank you for considering TGS. Contact: Shane Bzdok
+shane@thegraphicstandard.com
+512.761.0367</h2></SectionInner></section>
       </div>
     </div>
   );
