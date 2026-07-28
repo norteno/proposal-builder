@@ -215,8 +215,13 @@ export default function Home() {
 
   const copyShareLink = async () => {
     await saveNow();
-    const shareUrl = `${window.location.origin}/proposals/${proposal.slug}`;
+const getPublicProposalUrl = (slug: string) => {
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://proposal-builder-dun.vercel.app";
 
+  return `${siteUrl.replace(/\/$/, "")}/proposals/${slug}`;
+};
     try {
       await navigator.clipboard.writeText(shareUrl);
       setShareCopied(true);
